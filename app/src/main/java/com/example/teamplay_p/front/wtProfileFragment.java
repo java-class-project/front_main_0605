@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -69,9 +70,20 @@ public class wtProfileFragment extends Fragment {
         // Spinner 설정
         Spinner spn_major = view.findViewById(R.id.wtSpinner_major);
         Spinner spn_subject = view.findViewById(R.id.wtSpinner_lec);
+        Spinner spn_Snum = view.findViewById(R.id.wtSpinner_dv);
 
         // 전공 목록과 스피너 연결
         SpinnerUtils.loadMajorList(getContext(), spn_major);
+
+        // 분반 스피너 어댑터
+        // ArrayAdapter를 사용하여 Spinner에 데이터를 설정
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.Snum_array, android.R.layout.simple_spinner_item);
+
+        // 드롭다운 레이아웃을 설정
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Spinner에 어댑터를 설정
+        spn_Snum.setAdapter(adapter);
 
         // 전공 선택 유효성 검사
         spn_major.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -177,8 +189,8 @@ public class wtProfileFragment extends Fragment {
             subjectUuid = selectedSubject.getSubjectUuid();    // subjectUuid
 
             /// 분반 선택 처리
-            Spinner spn_Snum = view.findViewById(R.id.wtSpinner_dv);
-            classNum = Integer.parseInt(spn_Snum.getSelectedItem().toString());// subjectNum (string -> integer)
+            String selectedClassNum = (String) spn_Snum.getSelectedItem();
+            classNum = Integer.parseInt(selectedClassNum);// classNum (string -> integer)
 
             /// 희망 인원수 선택 처리
             Spinner spn_Pnum = view.findViewById(R.id.wtSpinner_num);
