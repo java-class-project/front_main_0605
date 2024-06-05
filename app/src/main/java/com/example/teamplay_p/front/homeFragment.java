@@ -144,6 +144,7 @@ public class homeFragment extends Fragment {
                                     meeting.getuserMajor(),
                                     meeting.getuserstudentNumber(),
                                     String.valueOf(meeting.getDesiredCount()),
+                                    meeting.getDate(),
                                     meeting.getTitle(),
                                     meeting.getDescription(),
                                     meeting.getMeetingUuid(),

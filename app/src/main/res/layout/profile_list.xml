@@ -158,6 +158,31 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="게시날짜: "
+                android:textColor="#00138F"/>
+
+            <TextView
+                android:id="@+id/iv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2024-06-06-12:48"
+                android:textColor="#00138F"/>
+
+
+
+
+
+
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/btn_showinfo"

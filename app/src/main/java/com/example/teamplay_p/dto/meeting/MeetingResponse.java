@@ -2,6 +2,7 @@ package com.example.teamplay_p.dto.meeting;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -35,7 +36,7 @@ public class MeetingResponse {
 
     private Date date;
 
-    public MeetingResponse(String subjectName, String teamType, String username, String userMajor, String studentNumber, int desiredCount, String title, String description, String meetingUuid){
+    public MeetingResponse(String subjectName, String teamType, String username, String userMajor, String studentNumber, int desiredCount, String title, String description, String meetingUuid,Date date ){
         this.subjectName = subjectName;
         this.teamType = teamType;
         this.username = username;
@@ -45,6 +46,9 @@ public class MeetingResponse {
         this.title = title;
         this.description = description;
         this.meetingUuid = meetingUuid;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.date = date;
 
 
     }
@@ -90,4 +94,11 @@ public class MeetingResponse {
     public String getUserId() {
         return UserId;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    // 변경된 부분: dateString 반환하는 메서드 추가
+
 }
