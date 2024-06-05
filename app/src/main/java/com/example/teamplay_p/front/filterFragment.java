@@ -44,6 +44,9 @@ public class filterFragment extends DialogFragment {
     private UUID majorUuid;
     private UUID subjectUuid;
     private String teamType;
+    private CheckBox checkBoxTeam, checkBoxStudy, checkBoxProject;
+
+    homeFragment Filter_homeFragment;
 
     @Override
     public void onStart() {
@@ -60,6 +63,8 @@ public class filterFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
 
+        Filter_homeFragment = new homeFragment();
+
         // 토큰 읽어오기
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Token", Context.MODE_PRIVATE);
         String authToken = sharedPreferences.getString("authToken", "");
@@ -68,6 +73,7 @@ public class filterFragment extends DialogFragment {
         Log.d("TOKEN", "Retrieved token: " + authToken);
 
         apiService = RetrofitClient.getClient(authToken).create(ApiService.class);
+
 
         // 전공, 과목 스피너 연결
         // 스피너 설정
@@ -142,39 +148,22 @@ public class filterFragment extends DialogFragment {
             // 필터링이 반영된 홈 화면으로 전환
 
             /// 팀형태 선택 처리
-            CheckBox checkBoxTeam = view.findViewById(R.id.ftType_teamplay);
-            CheckBox checkBoxStudy = view.findViewById(R.id.ftType_study);
-            CheckBox checkBoxProject = view.findViewById(R.id.ftType_project);
+            checkBoxTeam = view.findViewById(R.id.ftType_teamplay);
+            checkBoxStudy = view.findViewById(R.id.ftType_study);
+            checkBoxProject = view.findViewById(R.id.ftType_project);
 
-            /*
-            RadioGroup radioGroup = view.findViewById(R.id.teamtype);
-            //  선택된 라디오 버튼의 ID 가져오기
-            int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
-            if (selectedRadioButtonId == -1) {  // 팀 형태를 선택하지 않은 경우 / 선택된 라디오 버튼이 없으면 -1 반환
-                showToast("팀 형태를 선택하세요");
-                return;
+            List<String> selectedTeamtypes = new ArrayList<>();
+            if(checkBoxTeam.isChecked()){
+                selectedTeamtypes.add("TeamProject");
+            }
+            if(checkBoxStudy.isChecked()){
+                selectedTeamtypes.add("Study");
+            }
+            if(checkBoxProject.isChecked()){
+                selectedTeamtypes.add("Project");
             }
 
-            // 선택된 라디오 버튼 참조
-            RadioButton selectedRadioButton = view.findViewById(selectedRadioButtonId);
-            // 선택된 라디오 버튼의 텍스트 가져오기
-            String selectedTeamtype = selectedRadioButton.getText().toString();
-            switch (selectedTeamtype){                                   // teamtype
-                case "팀플":
-                    teamType = "TeamProject";
-                    break;
-                case "스터디":
-                    teamType = "Study";
-                    break;
-                case "프로젝트":
-                    teamType = "Project";
-                    break;
-                default:
-                    showToast("팀 형태 처리가 잘못되었습니다.");
-                    break;
-            }
-            */
-            Call<List<MeetingResponse>> call = apiService.filterAndSearchMeetings(majorUuid, subjectUuid, null, null, null);
+            Call<List<MeetingResponse>> call = apiService.filterAndSearchMeetings(majorUuid, subjectUuid, selectedTeamtypes, null, null);
             call.enqueue(new Callback<List<MeetingResponse>>() {
                 @Override
                 public void onResponse(Call<List<MeetingResponse>> call, Response<List<MeetingResponse>> response) {
@@ -182,7 +171,11 @@ public class filterFragment extends DialogFragment {
                         if(response.body()!=null){
                             // 서버 응답 성공 시
                             // 필터링된 모임 리스트 response.body() 에 저장됨
-                            List<MeetingResponse> FilterMeetingList = response.body();    // 필터링된 모임 리스트 -> 홈화면에 출력되어야함
+                            List<MeetingResponse> FilterMeetingList = response.body();    // 필터링된 모임 리스트 FilterMeetingList에 저장
+
+                            // 필터링된 모임 목록을 조회하는 homeFragment 설정
+                            Filter_homeFragment.checkState = 1;
+                            Filter_homeFragment.filterResult = FilterMeetingList;
 
                             showToast("필터링 검색을 수행합니다");
                             // 홈화면으로 이동
@@ -190,7 +183,7 @@ public class filterFragment extends DialogFragment {
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                             // homeFragment로 교체
-                            fragmentTransaction.replace(R.id.frame_layout, new homeFragment());
+                            fragmentTransaction.replace(R.id.frame_layout, Filter_homeFragment);
                             fragmentTransaction.commit();
                         }
                         else{    // response.body() 가 없을 경우, 즉 필터링 결과 일치하는 내용이 없는 경우
