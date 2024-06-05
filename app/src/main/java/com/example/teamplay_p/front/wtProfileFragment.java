@@ -49,7 +49,7 @@ public class wtProfileFragment extends Fragment {
     private ApiService apiService;
     private String teamType, title, description;
     private UUID majorUuid, subjectUuid;
-    private int desiredCount;
+    private int desiredCount, classNum;
 
     @Nullable
     @Override       // 프래그먼트가 뷰 계층을 처음 생성할 때 호출
@@ -178,7 +178,7 @@ public class wtProfileFragment extends Fragment {
 
             /// 분반 선택 처리
             Spinner spn_Snum = view.findViewById(R.id.wtSpinner_dv);
-            int subjectNum = Integer.parseInt(spn_Snum.getSelectedItem().toString());// subjectNum (string -> integer)
+            classNum = Integer.parseInt(spn_Snum.getSelectedItem().toString());// subjectNum (string -> integer)
 
             /// 희망 인원수 선택 처리
             Spinner spn_Pnum = view.findViewById(R.id.wtSpinner_num);
@@ -211,7 +211,7 @@ public class wtProfileFragment extends Fragment {
             apiService = RetrofitClient.getClient(authToken).create(ApiService.class);
             // apiService = RetrofitClient.getClient(authToken).create(ApiService.class);
 
-            CreateMeetingRequest createMeetingRequest = new CreateMeetingRequest(teamType, majorUuid, subjectUuid, desiredCount, title, description);
+            CreateMeetingRequest createMeetingRequest = new CreateMeetingRequest(teamType, majorUuid, subjectUuid, classNum, desiredCount, title, description);
             Call<Meeting> call = apiService.createMeeting(createMeetingRequest);
             call.enqueue(new Callback<Meeting>() {
                 @Override

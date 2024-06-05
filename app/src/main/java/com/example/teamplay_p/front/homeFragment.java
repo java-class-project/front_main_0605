@@ -112,7 +112,7 @@ public class homeFragment extends Fragment {
 
 
 
-        }
+    }
         //미리 저장해둔 데이터 불러옴
         //dataInitialize();
 
@@ -164,8 +164,7 @@ public class homeFragment extends Fragment {
 
 
 
-
-    }
+}
 
     /*
     private void dataInitialize() {

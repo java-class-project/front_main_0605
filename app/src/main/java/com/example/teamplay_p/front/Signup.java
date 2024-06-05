@@ -58,13 +58,11 @@ public class Signup extends AppCompatActivity {
         Spinner major_spinner = findViewById(R.id.major_spinner);
         Spinner double_spinner = findViewById(R.id.double_spinner);
         Spinner minor_spinner = findViewById(R.id.minor_spinner);
-        Spinner related_spinner = findViewById(R.id.related_spinner);
 
         // 전공 목록 불러와서 스피너에 설정
         loadMajorList(major_spinner);
         loadMajorList(double_spinner);
         loadMajorList(minor_spinner);
-        loadMajorList(related_spinner);
 
         // view 초기화
         Edt_username = findViewById(R.id.edt_username);
@@ -96,113 +94,107 @@ public class Signup extends AppCompatActivity {
             }
         });
 
-        // 아이디 중복 확인
-        Edt_userId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){  //  아이디 입력 editText가 포커스를 잃었을 경우
-                    isIdChecked = false;  // 아이디 중복 확인 버튼 클릭 여부 저장
-                }
-            }
-        });
-
+        isIdChecked = false;  // 아이디 중복 확인 버튼 클릭 여부 저장
         // 아이디 중복 확인 버튼 클릭 리스너
         AppCompatButton Btn_IDcheck = findViewById(R.id.btn_idCheck);
-        // isIdChecked = false; // 아이디 중복 확인 버튼 클릭 여부 저장
 
         Btn_IDcheck.setOnClickListener(v -> {
             userId = Edt_userId.getText().toString();
+            if(TextUtils.isEmpty(userId)){
+                txt_idCheck.setHint("아이디를 입력하세요");
+                txt_idCheck.setHintTextColor(Color.RED);
+            }
+            else{
+                // 아이디 중복 확인 로직
+                Call<Boolean> call = apiService.checkUserIdDuplicate(userId);
+                call.enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        if(response.isSuccessful()){
+                            if(response.body()!=null){
+                                if(response.body()){  // (response.body() = true) 아이디 사용 가능(중복X)
+                                    isIdChecked = true;
 
-            // 아이디 중복 확인 로직
-            Call<Boolean> call = apiService.checkUserIdDuplicate(userId);
-            call.enqueue(new Callback<Boolean>() {
-                @Override
-                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                    if(response.isSuccessful()){
-                        if(response.body()!=null){
-                            if(response.body()){  // (response.body() = true) 아이디 사용 가능(중복X)
-                                isIdChecked = true;
+                                    txt_idCheck.setHint("사용 가능한 아이디입니다");
+                                    txt_idCheck.setHintTextColor(Color.GRAY);
+                                }
+                                else {   // (response.body() = false) 아이디 중복
+                                    Edt_userId.setText("");  // 아이디 입력창 비우기
+                                    userId = "";
 
-                                txt_idCheck.setHint("사용 가능한 아이디입니다");
-                                txt_idCheck.setHintTextColor(Color.GRAY);
+                                    txt_idCheck.setHint("이미 존재하는 아이디입니다");
+                                    txt_idCheck.setHintTextColor(Color.RED);
+                                }
                             }
-                            else {   // (response.body() = false) 아이디 중복
-                                Edt_userId.setText("");  // 아이디 입력창 비우기
-                                userId = "";
-
-                                txt_idCheck.setHint("이미 존재하는 아이디입니다");
-                                txt_idCheck.setHintTextColor(Color.RED);
+                            else{
+                                Log.e("Signup", "[아이디 버튼] 응답 본문이 null입니다.");
                             }
                         }
                         else{
-                            Log.e("Signup", "[아이디 버튼] 응답 본문이 null입니다.");
+                            Log.e("Signup", "[아이디 버튼] 응답이 실패했습니다. 코드: " + response.code());
                         }
                     }
-                    else{
-                        Log.e("Signup", "[아이디 버튼] 응답이 실패했습니다. 코드: " + response.code());
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+                        Log.e("Signup", "[아이디 버튼] 서버 요청에 실패하였습니다.", t);
+                        Toast.makeText(Signup.this, "[아이디 버튼] 서버 요청에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                     }
-                }
-
-                @Override
-                public void onFailure(Call<Boolean> call, Throwable t) {
-                    Log.e("Signup", "[아이디 버튼] 서버 요청에 실패하였습니다.", t);
-                    Toast.makeText(Signup.this, "[아이디 버튼] 서버 요청에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
-
-        // 학번 중복 확인
-        Edt_studentNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){  //  아이디 입력 editText가 포커스를 잃었을 경우
-                    isStudentNumChecked = false;  // 아이디 중복 확인 버튼 클릭 여부 저장
-                }
+                });
             }
+
         });
+
+        isStudentNumChecked = false;  // 아이디 중복 확인 버튼 클릭 여부 저장
 
         // 학번 중복 확인 버튼 클릭 리스너
         AppCompatButton Btn_SNcheck = findViewById(R.id.btn_studentNumCheck);
 
         Btn_SNcheck.setOnClickListener(v -> {
             studentNumber = Edt_studentNumber.getText().toString();
+            if(TextUtils.isEmpty(studentNumber)){
+                txt_snCheck.setHint("학번을 입력하세요");
+                txt_snCheck.setHintTextColor(Color.RED);
+            }
+            else{
+                // 학번 중복 확인 로직
+                Call<Boolean> call = apiService.checkStudentNumberDuplicate(studentNumber);
+                call.enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        if(response.isSuccessful()){
+                            if(response.body()!=null){
+                                if(response.body()){  // (response.body() = true) 학번 사용 가능(중복x)
+                                    isStudentNumChecked = true;
 
-            // 아이디 중복 확인 로직
-            Call<Boolean> call = apiService.checkStudentNumberDuplicate(studentNumber);
-            call.enqueue(new Callback<Boolean>() {
-                @Override
-                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                    if(response.isSuccessful()){
-                        if(response.body()!=null){
-                            if(response.body()){  // (response.body() = true) 학번 사용 가능(중복x)
-                                isStudentNumChecked = true;
+                                    txt_snCheck.setHint("사용 가능한 학번입니다");
+                                    txt_snCheck.setHintTextColor(Color.GRAY);
+                                }
+                                else {   // (response.body() = false) 학번 중복
+                                    Edt_studentNumber.setText("");  // 학번 입력창 비우기
+                                    studentNumber = "";
 
-                                txt_snCheck.setHint("사용 가능한 학번입니다");
-                                txt_snCheck.setHintTextColor(Color.GRAY);
+                                    txt_snCheck.setHint("이미 존재하는 학번입니다");
+                                    txt_snCheck.setHintTextColor(Color.RED);
+                                }
                             }
-                            else {   // (response.body() = false) 학번 중복
-                                Edt_studentNumber.setText("");  // 학번 입력창 비우기
-                                studentNumber = "";
-
-                                txt_snCheck.setHint("이미 존재하는 학번입니다");
-                                txt_snCheck.setHintTextColor(Color.RED);
+                            else{
+                                Log.e("Signup", "[학번 버튼] 응답 본문이 null입니다.");
                             }
                         }
                         else{
-                            Log.e("Signup", "[학번 버튼] 응답 본문이 null입니다.");
+                            Log.e("Signup", "[학번 버튼] 응답이 실패했습니다. 코드: " + response.code());
                         }
                     }
-                    else{
-                        Log.e("Signup", "[학번 버튼] 응답이 실패했습니다. 코드: " + response.code());
-                    }
-                }
 
-                @Override
-                public void onFailure(Call<Boolean> call, Throwable t) {
-                    Log.e("Signup", "[학번 버튼] 서버 요청에 실패하였습니다.", t);
-                    Toast.makeText(Signup.this, "[학번 버튼] 서버 요청에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-                }
-            });
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+                        Log.e("Signup", "[학번 버튼] 서버 요청에 실패하였습니다.", t);
+                        Toast.makeText(Signup.this, "[학번 버튼] 서버 요청에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
         });
 
         // 백 작업
@@ -225,9 +217,8 @@ public class Signup extends AppCompatActivity {
                 if(TextUtils.isEmpty(userId)){     // 아이디 미입력 시
                     Toast.makeText(Signup.this, "아이디를 입력하세요", Toast.LENGTH_SHORT).show();
                 }
-                // 아이디 중복 확인 미 수행시 isIdChecked = true 여야 넘어감
                 else{
-                    if(!isIdChecked){
+                    if(!isIdChecked){      // 아이디 중복 확인 미수행 시
                         Toast.makeText(Signup.this,"사용 가능한 아이디인지 확인하세요", Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -241,7 +232,7 @@ public class Signup extends AppCompatActivity {
                                 if (TextUtils.isEmpty(studentNumber)) {     // 학번 미입력 시
                                     Toast.makeText(Signup.this, "학번을 입력하세요", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    if (!isStudentNumChecked) {
+                                    if (!isStudentNumChecked) {        // 학번 중복 확인 미수행 시
                                         Toast.makeText(Signup.this, "사용 가능한 학번인지 확인하세요", Toast.LENGTH_SHORT).show();
                                     } else {
                                         // 스피너(전공 선택)
@@ -271,7 +262,7 @@ public class Signup extends AppCompatActivity {
                                             // 비밀번호 일치 여부 유효성 검사
                                             if (password.equals(confirmPassword)) {   // 비밀번호 확인이 일치하는 경우
                                                 //JoinRequest 객체 생성
-                                                JoinRequest joinRequest = new JoinRequest(username, userId, password, confirmPassword, studentNumber, mainMajor, subMajor1);
+                                                JoinRequest joinRequest = new JoinRequest(username, userId, password, confirmPassword, studentNumber, mainMajor, subMajor1, subMajor2);
 
                                                 Call<UserResponse> call = apiService.registerUser(joinRequest);
                                                 call.enqueue(new Callback<UserResponse>() {

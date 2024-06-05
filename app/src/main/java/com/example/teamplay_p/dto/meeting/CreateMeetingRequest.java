@@ -13,12 +13,8 @@ public class CreateMeetingRequest {
     private UUID majorUuid;
     @SerializedName("subjectUuid")
     private UUID subjectUuid;
-
-    /*  // 분반 추가 예정
-    @SerializedName("subjectNum")
-    private int subjectNum;
-    */
-
+    @SerializedName("classNum")
+    private int classNum;
     @SerializedName("desiredCount")
     private int desiredCount;
     @SerializedName("title")
@@ -27,10 +23,11 @@ public class CreateMeetingRequest {
     private String description;
 
 
-    public CreateMeetingRequest(String teamType, UUID majorUuid, UUID subjectUuid, int desiredCount, String title, String description){
+    public CreateMeetingRequest(String teamType, UUID majorUuid, UUID subjectUuid, int classNum, int desiredCount, String title, String description){
         this.teamType = teamType;
         this.majorUuid = majorUuid;
         this.subjectUuid = subjectUuid;
+        this.classNum = classNum;
         this.desiredCount = desiredCount;
         this.title = title;
         this.description = description;
@@ -58,6 +55,14 @@ public class CreateMeetingRequest {
 
     public void setSubjectUuid(UUID subjectUuid) {
         this.subjectUuid = subjectUuid;
+    }
+
+    public int getClassNum() {
+        return classNum;
+    }
+
+    public void setClassNum(int classNum) {
+        this.classNum = classNum;
     }
 
     public int getDesiredCount() {
