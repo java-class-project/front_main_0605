@@ -1,5 +1,7 @@
 package com.example.teamplay_p.front;
 
+import java.util.Date;
+
 public class ProfileList {
     int profile_img;
     String ClassName;
@@ -14,6 +16,8 @@ public class ProfileList {
     String Userstunum;
 
     String DesiredCount;
+
+    Date Date;
 
 
 
@@ -42,7 +46,7 @@ public class ProfileList {
 
 
 
-    public ProfileList(int profile_img, String className, String teamtype,String teamLeader,String userMajor, String userstunum,String desiredcount, String title, String description, String meetinguuid, String userid) {
+    public ProfileList(int profile_img, String className, String teamtype,String teamLeader,String userMajor, String userstunum,String desiredcount,Date date, String title, String description, String meetinguuid, String userid) {
         this.profile_img = profile_img;
 
         ClassName = className;
@@ -51,6 +55,7 @@ public class ProfileList {
         UserMajor =userMajor;
         Userstunum = userstunum;
         DesiredCount = desiredcount;
+        Date = date;
         Title = title;
         Description = description;
         MeetingUuid = meetinguuid;
@@ -64,5 +69,9 @@ public class ProfileList {
 
     public String getMeetingUuid() {
         return MeetingUuid;
+    }
+
+    public Object getDate() {
+        return Date;
     }
 }
