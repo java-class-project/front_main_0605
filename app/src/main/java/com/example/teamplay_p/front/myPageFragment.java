@@ -41,6 +41,7 @@ import retrofit2.Retrofit;
 public class myPageFragment extends Fragment{
 
     private ApiService apiService;
+    public static String uuid;
 
     public myPageFragment() {
         // Required empty public constructor
@@ -69,7 +70,7 @@ public class myPageFragment extends Fragment{
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Token", Context.MODE_PRIVATE);
         String authToken = sharedPreferences.getString("authToken", "");
 
-        String uuid = RetrofitClient.Uuid;
+        if(uuid == null) uuid = RetrofitClient.Uuid;
         // Retrofit 클라이언트 생성
         apiService = RetrofitClient.getClient(authToken).create(ApiService.class);
         Call<UserResponse> call = apiService.getUserInfo(uuid);
@@ -145,3 +146,4 @@ public class myPageFragment extends Fragment{
 
 
 }
+

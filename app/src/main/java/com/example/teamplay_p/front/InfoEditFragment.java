@@ -1,9 +1,11 @@
 package com.example.teamplay_p.front;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +15,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
+import androidx.activity.EdgeToEdge;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.example.teamplay_p.ApiService;
 import com.example.teamplay_p.R;
+import com.example.teamplay_p.ApiService;
 import com.example.teamplay_p.RetrofitClient;
 import com.example.teamplay_p.dto.major.Major;
 import com.example.teamplay_p.dto.user.UpdateRequest;
@@ -25,10 +30,13 @@ import com.example.teamplay_p.dto.user.UserResponse;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.http.Path;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class InfoEditFragment extends Fragment {
 
@@ -82,19 +90,22 @@ public class InfoEditFragment extends Fragment {
                     String authToken = sharedPreferences.getString("authToken", "");
                     apiService = RetrofitClient.getClient(authToken).create(ApiService.class);
 
-                    Major selectedMainmajor = (Major) major_spinner.getSelectedItem(); // 스피너 선택 아이템 major 타입으로 변환해서 major 객체 selectedMainmajor에 받아옴
-                    String mainMajor = selectedMainmajor.getMajorUuid().toString(); // getter로 UUID를 가져와서 mainMajor에 저장(String타입)
-                    Major selectedSubmajor1 = (Major) double_spinner.getSelectedItem();
-                    String subMajor1 = selectedSubmajor1.getMajorUuid().toString();
-                    Major selectedSubmajor2 = (Major) minor_spinner.getSelectedItem();
-                    String subMajor2 = selectedSubmajor2.getMajorUuid().toString();
-                    //updateRequest 객체 생성
-                    UpdateRequest updateRequest = new UpdateRequest(/*"1245", "2222", mainMajor, subMajor1, subMajor2*/);
-                    updateRequest.mainMajor = mainMajor;
-                    updateRequest.subMajor1 = subMajor1;
-                    updateRequest.subMajor2 = subMajor2;
+                    UpdateRequest updateRequest = new UpdateRequest();
 
-                    Call<UserResponse> call = apiService.updateUserInfo(RetrofitClient.Uuid, updateRequest);
+                    Major selectedMainmajor = (Major) major_spinner.getSelectedItem(); // 스피너 선택 아이템 major 타입으로 변환해서 major 객체 selectedMainmajor에 받아옴
+                    updateRequest.mainMajor = selectedMainmajor.getMajorUuid().toString(); // getter로 UUID를 가져와서 mainMajor에 저장(String타입)
+
+                    if(double_spinner.getSelectedItemPosition() != 0) {
+                        Major selectedSubmajor1 = (Major) double_spinner.getSelectedItem();
+                        updateRequest.subMajor1 = selectedSubmajor1.getMajorUuid().toString();
+                    }
+
+                    if(minor_spinner.getSelectedItemPosition() != 0) {
+                        Major selectedSubmajor2 = (Major) minor_spinner.getSelectedItem();
+                        updateRequest.subMajor2 = selectedSubmajor2.getMajorUuid().toString();
+                    }
+
+                    Call<UserResponse> call = apiService.updateUserInfo(myPageFragment.uuid, updateRequest);
                     // 여기 이렇게 보내는거 맞는지 확인해봐야함
                     call.enqueue(new Callback<UserResponse>() {
                         @Override
@@ -103,6 +114,14 @@ public class InfoEditFragment extends Fragment {
                                 UserResponse userResponse = response.body();
                                 //userResponse.
                                 Toast.makeText(getActivity(), "수정되었습니다.", Toast.LENGTH_SHORT).show();
+                                // myPageFragment로 이동합니다.
+                                myPageFragment mypageFragment = new myPageFragment();
+
+                                // FragmentManager를 사용하여 Fragment를 추가합니다.
+                                requireActivity().getSupportFragmentManager().beginTransaction()
+                                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out) // 애니메이션 효과 추가 (선택사항)
+                                        .replace(R.id.frame_layout, mypageFragment)
+                                        .commit();
                             }
                             else{
                                 // response.message(): 서버 응답이 실패했을 때, 서버에서 제공하는 메시지를 표시
@@ -116,23 +135,6 @@ public class InfoEditFragment extends Fragment {
                         }
                     });
                 } // 본전공 선택 유효성 검사
-
-
-
-
-
-
-
-
-
-                // myPageFragment로 이동합니다.
-                myPageFragment mypageFragment = new myPageFragment();
-
-                // FragmentManager를 사용하여 Fragment를 추가합니다.
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out) // 애니메이션 효과 추가 (선택사항)
-                        .replace(R.id.frame_layout, mypageFragment)
-                        .commit();
             }
         });
 
