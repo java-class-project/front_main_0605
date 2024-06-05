@@ -5,6 +5,7 @@ import static java.util.Locale.filter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
@@ -43,14 +45,6 @@ public class homeFragment extends Fragment {
     private RecyclerView recyclerView;
     private SearchView searchView;
 
-    private String[] className;
-    private String[] classNumber;
-    private String[] teamType;
-    private String[] experience;
-    private String[] mbti;
-    private int profile_img;
-    private String[] profileName;
-    private String[] cmt;
 
     filterFragment FilterFragment;
 
@@ -58,6 +52,9 @@ public class homeFragment extends Fragment {
     public List<MeetingResponse> filterResult = null;
 
     private ApiService apiService;
+
+
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -105,19 +102,7 @@ public class homeFragment extends Fragment {
         recyclerView.setAdapter(profileAdapter);
         searchView = view.findViewById(R.id.searchView);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                filter(query);
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filter(newText);
-                return false;
-            }
-        });
 
         // 토큰 읽어오기
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Token", Context.MODE_PRIVATE);
@@ -144,6 +129,26 @@ public class homeFragment extends Fragment {
                 Toast.makeText(getContext(), "모임 목록 조회 에러 발생!", Toast.LENGTH_SHORT).show();
                 break;
         }
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    // 검색어가 비어 있으면 전체 목록을 보여줍니다.
+                    profileAdapter.filterList(null); // null을 전달하여 전체 목록을 보여줍니다.
+                } else {
+                    // 검색어가 비어 있지 않으면 필터링 수행
+                    filter(newText);
+                }
+                return true;
+            }
+        });
 
 
 
@@ -239,18 +244,22 @@ public class homeFragment extends Fragment {
             }
     }
 
-    private void filter(String query){
+     private void filter(String query){
         ArrayList<ProfileList> filteredList = new ArrayList<>();
-        for (ProfileList item : profileArrayList){
-            if (item.getClassName().toLowerCase().contains(query.toLowerCase()) ||
-            item.getTeamLeader().toLowerCase().contains(query.toLowerCase()) ||
-            item.getUserMajor().toLowerCase().contains(query.toLowerCase()) ||
-            item.getTitle().toLowerCase().contains(query.toLowerCase())){
-                filteredList.add(item);
-            }else{
-
-            }
-        }
+         if (query.isEmpty()) {
+             // 검색어가 비어 있으면 원래의 목록을 그대로 사용
+             filteredList.addAll(profileArrayList);
+         } else {
+             // 검색어가 비어 있지 않으면 필터링 수행
+             for (ProfileList item : profileArrayList){
+                 if (item.getClassName().toLowerCase().contains(query.toLowerCase()) ||
+                         item.getTeamLeader().toLowerCase().contains(query.toLowerCase()) ||
+                         item.getUserMajor().toLowerCase().contains(query.toLowerCase()) ||
+                         item.getTitle().toLowerCase().contains(query.toLowerCase())){
+                     filteredList.add(item);
+                 }
+             }
+         }
         profileAdapter.filterList(filteredList);
     }
 
