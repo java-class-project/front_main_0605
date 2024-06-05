@@ -32,6 +32,7 @@ public class MeetingResponse {
     @SerializedName("description")
     private String description;
 
+
     private Date date;
 
     public MeetingResponse(String subjectName, String teamType, String username, String userMajor, String studentNumber, int desiredCount, String title, String description, String meetingUuid){
