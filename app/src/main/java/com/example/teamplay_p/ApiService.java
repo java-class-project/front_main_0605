@@ -80,7 +80,6 @@ public interface ApiService {
                                                         @Query("teamTypes") List<String> teamTypes, @Query("desiredCount") Integer desiredCount, @Query("searchText") String searchText);
 
 
-
     @GET("/v1/meetings")
     Call<List<MeetingResponse>> getAllMeetings();
 

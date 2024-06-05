@@ -46,6 +46,8 @@ public class filterFragment extends DialogFragment {
     private String teamType;
     private CheckBox checkBoxTeam, checkBoxStudy, checkBoxProject;
 
+    homeFragment Filter_homeFragment;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -61,6 +63,8 @@ public class filterFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
 
+        Filter_homeFragment = new homeFragment();
+
         // 토큰 읽어오기
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Token", Context.MODE_PRIVATE);
         String authToken = sharedPreferences.getString("authToken", "");
@@ -69,6 +73,7 @@ public class filterFragment extends DialogFragment {
         Log.d("TOKEN", "Retrieved token: " + authToken);
 
         apiService = RetrofitClient.getClient(authToken).create(ApiService.class);
+
 
         // 전공, 과목 스피너 연결
         // 스피너 설정
@@ -149,13 +154,13 @@ public class filterFragment extends DialogFragment {
 
             List<String> selectedTeamtypes = new ArrayList<>();
             if(checkBoxTeam.isChecked()){
-                selectedTeamtypes.add(checkBoxTeam.getText().toString());
+                selectedTeamtypes.add("TeamProject");
             }
             if(checkBoxStudy.isChecked()){
-                selectedTeamtypes.add(checkBoxStudy.getText().toString());
+                selectedTeamtypes.add("Study");
             }
             if(checkBoxProject.isChecked()){
-                selectedTeamtypes.add(checkBoxProject.getText().toString());
+                selectedTeamtypes.add("Project");
             }
 
             Call<List<MeetingResponse>> call = apiService.filterAndSearchMeetings(majorUuid, subjectUuid, selectedTeamtypes, null, null);
@@ -166,8 +171,11 @@ public class filterFragment extends DialogFragment {
                         if(response.body()!=null){
                             // 서버 응답 성공 시
                             // 필터링된 모임 리스트 response.body() 에 저장됨
-                            List<MeetingResponse> FilterMeetingList = response.body();    // 필터링된 모임 리스트 -> 홈화면에 출력되어야함
-                            // 번들에 담아서 홈화면에 전달해서 출력?
+                            List<MeetingResponse> FilterMeetingList = response.body();    // 필터링된 모임 리스트 FilterMeetingList에 저장
+
+                            // 필터링된 모임 목록을 조회하는 homeFragment 설정
+                            Filter_homeFragment.checkState = 1;
+                            Filter_homeFragment.filterResult = FilterMeetingList;
 
                             showToast("필터링 검색을 수행합니다");
                             // 홈화면으로 이동
@@ -175,7 +183,7 @@ public class filterFragment extends DialogFragment {
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                             // homeFragment로 교체
-                            fragmentTransaction.replace(R.id.frame_layout, new homeFragment());
+                            fragmentTransaction.replace(R.id.frame_layout, Filter_homeFragment);
                             fragmentTransaction.commit();
                         }
                         else{    // response.body() 가 없을 경우, 즉 필터링 결과 일치하는 내용이 없는 경우
