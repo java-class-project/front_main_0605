@@ -12,6 +12,8 @@ public class MeetingResponse {
     @SerializedName("subjectName")
     private String subjectName;
 
+    private int subjectNum;
+
     @SerializedName("desiredCount")
     private int desiredCount;
 
@@ -36,8 +38,9 @@ public class MeetingResponse {
 
     private Date date;
 
-    public MeetingResponse(String subjectName, String teamType, String username, String userMajor, String studentNumber, int desiredCount, String title, String description, String meetingUuid,Date date ){
+    public MeetingResponse(String subjectName,int subjectNum, String teamType, String username, String userMajor, String studentNumber, int desiredCount, String title, String description, String meetingUuid,Date date ){
         this.subjectName = subjectName;
+        this.subjectNum = subjectNum;
         this.teamType = teamType;
         this.username = username;
         this.userMajor = userMajor;
@@ -97,6 +100,10 @@ public class MeetingResponse {
 
     public Date getDate() {
         return date;
+    }
+
+    public int getsubjectNum() {
+        return subjectNum;
     }
 
     // 변경된 부분: dateString 반환하는 메서드 추가

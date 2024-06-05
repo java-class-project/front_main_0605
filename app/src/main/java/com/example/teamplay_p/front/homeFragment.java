@@ -160,6 +160,7 @@ public class homeFragment extends Fragment {
                             ProfileList profile = new ProfileList(
                                     R.mipmap.ic_launcher, // Example image resource
                                     meeting.getSubjectName(),
+                                    String.valueOf(meeting.getsubjectNum()),
                                     meeting.getTeamType(),
                                     meeting.getUsername(),
                                     meeting.getuserMajor(),
@@ -204,6 +205,7 @@ public class homeFragment extends Fragment {
                     ProfileList profile = new ProfileList(
                             R.mipmap.ic_launcher, // Example image resource
                             meeting.getSubjectName(),
+                            String.valueOf(meeting.getsubjectNum()),
                             meeting.getTeamType(),
                             meeting.getUsername(),
                             meeting.getuserMajor(),
