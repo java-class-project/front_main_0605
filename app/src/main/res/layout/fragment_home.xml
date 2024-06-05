@@ -7,100 +7,110 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".front.homeFragment">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <!-- 필터 버튼 -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_filter"
-                android:layout_width="80dp"
-                android:layout_height="48dp"
-                android:layout_marginVertical="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/btn_background"
-                android:layout_gravity="center"
-                android:text="필터"
-                android:textSize="9pt"
-                android:textAlignment="center"
-                android:textColor="@color/white" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-            <!-- 검색창 -->
-            <SearchView
-                android:id="@+id/searchView"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:layout_marginVertical="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="3dp"
-                app:iconifiedByDefault="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/bg_searchview"
-                android:queryHint="Search" />
-        </LinearLayout>
+                    <!-- 필터 버튼 -->
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_filter"
+                        android:layout_width="80dp"
+                        android:layout_height="48dp"
+                        android:layout_marginVertical="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/btn_background"
+                        android:layout_gravity="center"
+                        android:text="필터"
+                        android:textSize="9pt"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
 
-        <!-- 모집중인 모임 제목 -->
+                    <!-- 검색창 -->
+                    <SearchView
+                        android:id="@+id/searchView"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:layout_marginVertical="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginLeft="3dp"
+                        app:iconifiedByDefault="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:background="@drawable/bg_searchview"
+                        android:queryHint="Search" />
+                </LinearLayout>
 
-        <!-- 첫 번째 RecyclerView -->
+                <!-- 모집중인 모임 제목 -->
 
-        <!-- 두 번째 RecyclerView -->
+                <!-- 첫 번째 RecyclerView -->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginHorizontal="5dp"
-            android:background="@drawable/btn_background"
-            android:gravity="center"
-            android:text="모집중인 모임"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="9pt" />
+                <!-- 두 번째 RecyclerView -->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:scrollbarFadeDuration="0"
-            android:scrollbarSize="5dp"
-            android:scrollbarThumbVertical="@android:color/darker_gray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchView"
-            tools:ignore="NotSibling"
-            tools:itemCount="3"
-            tools:listitem="@layout/profile_list" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@drawable/btn_background"
+                    android:gravity="center"
+                    android:text="모집중인 모임"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="9pt" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:scrollbarFadeDuration="0"
-            android:scrollbarSize="5dp"
-            android:scrollbarThumbVertical="@android:color/darker_gray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchView"
-            tools:ignore="NotSibling"
-            tools:itemCount="3"
-            tools:listitem="@layout/team_list"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:scrollbarFadeDuration="0"
+                    android:scrollbarSize="5dp"
+                    android:scrollbarThumbVertical="@android:color/darker_gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/searchView"
+                    tools:ignore="NotSibling"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/profile_list" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:scrollbarFadeDuration="0"
+                    android:scrollbarSize="5dp"
+                    android:scrollbarThumbVertical="@android:color/darker_gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/searchView"
+                    tools:ignore="NotSibling"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/team_list"/>
+
+
+
+            </LinearLayout>
+        </ScrollView>
 
         <!-- Floating Action Button -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -115,8 +125,12 @@
             app:maxImageSize="35dp"
             tools:ignore="SpeakableTextPresentCheck"/>
 
-    </LinearLayout>
-</ScrollView>
+
+
+
+
+
+    </RelativeLayout>
 
 
 </LinearLayout>
