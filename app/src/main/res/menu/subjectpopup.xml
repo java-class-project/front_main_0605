@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/subject1"
+        android:title="객체지향프로그래밍"/>
+    <item
+        android:id="@+id/subject2"
+        android:title="컴퓨터아키텍쳐"/>
+
+    <item
+        android:id="@+id/subject3"
+        android:title="데이터구조"/>
+
+    <item
+        android:id="@+id/subject4"
+        android:title="프로그래밍입문"/>
+
+
+
+
+
+</menu>

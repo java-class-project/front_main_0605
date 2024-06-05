@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_my_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".front.myPageFragment"
+    tools:ignore="ExtraText">
+
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue_sook"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="마이 페이지"
+        app:titleTextColor="#FFFFFF" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/bg_searchview"
+        android:padding="16dp"
+        android:stateListAnimator="@null"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@drawable/bg_searchview"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="8dp"
+                android:text="정은경"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="50dp"
+                android:text="1910074"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/user_major"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="85dp"
+                android:text="양드로퍼너십\n게임콘텐츠디자인"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/baseline_account_circle_24" />
+
+            <TextView
+                android:id="@+id/user_courses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="180dp"
+                android:text="수강 중인 수업\n객체지향프로그래밍 3분반\n디지털미디어컨텐츠1\n문화 심리학"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btn_InfoEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
+                android:layout_marginTop="250dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/btn_background"
+                android:text="정보 수정"
+                android:textColor="#FFFFFF" />
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="450dp"
+        android:background="@drawable/bg_searchview"
+        android:stateListAnimator="@null"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:background="@drawable/bg_searchview"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/team_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="객체지향프로그래밍 3분반"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/team_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="팀장: 정은경 (앙트러프러너십)\n팀원: 이지민 (IT 공학전공)"
+                android:textSize="20sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_recruit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="#FFC107"
+                    android:text="팀원 모집중" />
+
+                <TextView
+                    android:id="@+id/team_members"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginTop="8dp"
+                    android:text="2 / 5"
+                    android:textSize="30sp" />
+            </FrameLayout>
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Team Status Section -->
+    <TextView
+        android:id="@+id/team_status_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="420dp"
+        android:layout_gravity="top"
+        android:text="팀 현황"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</FrameLayout>

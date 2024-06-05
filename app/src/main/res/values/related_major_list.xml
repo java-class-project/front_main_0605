@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="related_array">
+        <item>공공인재학전공</item>
+        <item>국제한국어교육전공</item>
+        <item>글로벌비즈니스개발학전공</item>
+        <item>글로벌지식경영전공</item>
+        <item>글로벌환경학전공</item>
+        <item>금융공학전공</item>
+        <item>기술인문융합전공</item>
+        <item>기업법무전공</item>
+        <item>문화예술기획전공</item>
+        <item>부동산학전공</item>
+        <item>비서학전공</item>
+        <item>빅데이터분석학</item>
+        <item>상담학전공</item>
+        <item>세무회계학전공</item>
+        <item>순헌융합인문학전공</item>
+        <item>스토리텔링전공</item>
+        <item>안보학전공</item>
+        <item>인재개발전공</item>
+        <item>통상학전공</item>
+    </string-array>
+ </resources>

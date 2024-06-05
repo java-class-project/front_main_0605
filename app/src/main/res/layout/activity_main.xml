@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/ThemeOverlay.Teamplay_p.FullscreenContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    tools:context=".front.MainActivity">
+
+    <ImageView
+        android:id="@+id/Logo"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@mipmap/ic_launcher_round"
+        tools:ignore="ContentDescription,Suspicious0dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.2"
+        android:autofillHints=""
+        android:importantForAutofill="no"
+        android:orientation="vertical"
+        >
+
+        <EditText
+            android:id="@+id/inID"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:ems="13"
+            android:background="@drawable/line_border"
+            android:hint=" ID"
+            android:inputType="textPersonName"
+            android:text=""
+            tools:ignore="Autofill,HardcodedText" />
+
+        <EditText
+            android:id="@+id/inPW"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:ems="13"
+            android:background="@drawable/line_border"
+            android:hint=" PASSWORD"
+            android:inputType="textPassword"
+            tools:ignore="Autofill,HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/loginBT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:ems="13"
+            android:background="@drawable/box_border"
+            android:text="LOGIN"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="회원가입"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+</LinearLayout>
