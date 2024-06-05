@@ -110,6 +110,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         return profileListArrayList.size();
     }
 
+    public void filterList(ArrayList<ProfileList> filteredList){
+        this.profileListArrayList = filteredList;
+        notifyDataSetChanged();
+    }
+
     public class ProfileAdapterHolder extends RecyclerView.ViewHolder {
 
         Button btn_register,btn_teaminfo;

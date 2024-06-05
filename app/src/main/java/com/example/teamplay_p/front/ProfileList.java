@@ -42,13 +42,19 @@ public class ProfileList {
         return Teamtype;
     }
 
+    public String getTeamLeader() {
+        return TeamLeader;
+    }
 
+    public String getUserMajor() {
+        return UserMajor;
+    }
 
+    public String getTitle() {
+        return Title;
+    }
 
-
-
-
-    public ProfileList(int profile_img, String className, String classnum, String teamtype,String teamLeader,String userMajor, String userstunum,String desiredcount,Date date, String title, String description, String meetinguuid, String userid) {
+    public ProfileList(int profile_img, String className, String classnum, String teamtype, String teamLeader, String userMajor, String userstunum, String desiredcount, Date date, String title, String description, String meetinguuid, String userid) {
         this.profile_img = profile_img;
 
         ClassName = className;

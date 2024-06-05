@@ -1,5 +1,7 @@
 package com.example.teamplay_p.front;
 
+import static java.util.Locale.filter;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -38,6 +41,7 @@ public class homeFragment extends Fragment {
     private ArrayList<ProfileList> profileArrayList;
     private ProfileAdapter profileAdapter;
     private RecyclerView recyclerView;
+    private SearchView searchView;
 
     private String[] className;
     private String[] classNumber;
@@ -99,6 +103,21 @@ public class homeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         profileAdapter = new ProfileAdapter(getContext(), profileArrayList);
         recyclerView.setAdapter(profileAdapter);
+        searchView = view.findViewById(R.id.searchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+        });
 
         // 토큰 읽어오기
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Token", Context.MODE_PRIVATE);
@@ -127,10 +146,6 @@ public class homeFragment extends Fragment {
         }
 
 
-        recyclerView = view.findViewById(R.id.rv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        profileAdapter = new ProfileAdapter(getContext(), profileArrayList);
-        recyclerView.setAdapter(profileAdapter);
 
 
         return view;
@@ -222,6 +237,21 @@ public class homeFragment extends Fragment {
                 profileAdapter.notifyDataSetChanged();
                 Toast.makeText(getContext(), "Filtering Meetings loaded successfully", Toast.LENGTH_SHORT).show();
             }
+    }
+
+    private void filter(String query){
+        ArrayList<ProfileList> filteredList = new ArrayList<>();
+        for (ProfileList item : profileArrayList){
+            if (item.getClassName().toLowerCase().contains(query.toLowerCase()) ||
+            item.getTeamLeader().toLowerCase().contains(query.toLowerCase()) ||
+            item.getUserMajor().toLowerCase().contains(query.toLowerCase()) ||
+            item.getTitle().toLowerCase().contains(query.toLowerCase())){
+                filteredList.add(item);
+            }else{
+
+            }
+        }
+        profileAdapter.filterList(filteredList);
     }
 
 
