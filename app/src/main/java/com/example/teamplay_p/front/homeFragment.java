@@ -137,8 +137,8 @@ public class homeFragment extends Fragment {
                 break;
                 /*
 	case 2 : // 검색 결과 반영 홈화면
-	fetchSearch();
-*/
+	fetchSearch(); */
+
             default :
                 Log.e("homeFragment","모임 목록 조회 에러 발생!");
                 Toast.makeText(getContext(), "모임 목록 조회 에러 발생!", Toast.LENGTH_SHORT).show();
@@ -170,7 +170,7 @@ public class homeFragment extends Fragment {
                     if (meetings.isEmpty()) {
                         Toast.makeText(getContext(), "No meetings found", Toast.LENGTH_SHORT).show();
                     } else {
-                        profileArrayList.clear(); // 기존 데이터를 지우고 새로운 데이터로 대체
+                         profileArrayList.clear(); // 기존 데이터를 지우고 새로운 데이터로 대체
                         for (MeetingResponse meeting : meetings) {
                             ProfileList profile = new ProfileList(
                                     R.mipmap.ic_launcher, // Example image resource
