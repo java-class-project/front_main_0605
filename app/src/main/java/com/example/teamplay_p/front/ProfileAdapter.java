@@ -68,6 +68,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         ProfileList profileList = profileListArrayList.get(position);
         holder.profile_img.setImageResource(profileList.profile_img);
         holder.ClassName.setText(profileList.ClassName);
+        holder.ClassNumber.setText(profileList.CLassnum);
         holder.TeamType.setText(profileList.Teamtype);
         holder.TeamLeader.setText(profileList.TeamLeader);
         holder.UserMajor.setText(profileList.UserMajor);
@@ -115,13 +116,16 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         ImageView profile_img;
         int team_img;
 
-        TextView major,ClassName,Desiredcount,ClassNumber, TeamType,Title, Description, TeamLeader,UserMajor, Userstunum,Date;
+        TextView major,ClassName,Desiredcount, TeamType,Title, Description, TeamLeader,UserMajor, Userstunum,Date;
+
+        TextView ClassNumber;
 
 
         public ProfileAdapterHolder(@NonNull View itemView) {
             super(itemView);
             profile_img = itemView.findViewById(R.id.iv_profile);
             ClassName = itemView.findViewById(R.id.iv_ClassName);
+            ClassNumber = itemView.findViewById(R.id.iv_subjectNum);
             TeamType = itemView.findViewById(R.id.iv_teamtype);
             TeamLeader = itemView.findViewById(R.id.iv_username);
             UserMajor = itemView.findViewById(R.id.iv_usermajor);
