@@ -18,9 +18,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.teamplay_p.ApiService;
 import com.example.teamplay_p.R;
+import com.example.teamplay_p.RetrofitClient;
 
 import java.util.ArrayList;
+import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileAdapterHolder> {
 
@@ -62,6 +69,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         holder.ClassName.setText(profileList.ClassName);
         holder.TeamType.setText(profileList.Teamtype);
         holder.TeamLeader.setText(profileList.TeamLeader);
+        holder.UserMajor.setText(profileList.UserMajor);
+        holder.Userstunum.setText(profileList.Userstunum);
         holder.Desiredcount.setText(profileList.DesiredCount);
         holder.Title.setText(profileList.Title);
         holder.Description.setText(profileList.Description);
@@ -100,7 +109,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         ImageView profile_img;
         int team_img;
 
-        TextView major,ClassName,Desiredcount,ClassNumber, TeamType,Title, Description, TeamLeader;
+        TextView major,ClassName,Desiredcount,ClassNumber, TeamType,Title, Description, TeamLeader,UserMajor, Userstunum;
 
 
         public ProfileAdapterHolder(@NonNull View itemView) {
@@ -109,6 +118,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
             ClassName = itemView.findViewById(R.id.iv_ClassName);
             TeamType = itemView.findViewById(R.id.iv_teamtype);
             TeamLeader = itemView.findViewById(R.id.iv_username);
+            UserMajor = itemView.findViewById(R.id.iv_usermajor);
+            Userstunum = itemView.findViewById(R.id.iv_userstnum);
             Desiredcount = itemView.findViewById(R.id.iv_desiredcount);
             Title = itemView.findViewById(R.id.iv_title);
             Description = itemView.findViewById(R.id.iv_description);
@@ -121,9 +132,25 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
 
             btn_teaminfo = itemView.findViewById(R.id.btn_showinfo);
 
+            btn_register.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String meetingId = profileListArrayList.get(getAdapterPosition()).getMeetingUuid();
+                    // 서버의 메서드 호출
+
+                }
+            });
+
 
 
         }
+
+
+
+
+
+
+
     }
 
 

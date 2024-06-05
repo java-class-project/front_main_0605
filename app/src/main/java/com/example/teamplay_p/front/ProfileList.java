@@ -9,6 +9,10 @@ public class ProfileList {
 
     String TeamLeader;
 
+    String UserMajor;
+
+    String Userstunum;
+
     String DesiredCount;
 
 
@@ -16,6 +20,8 @@ public class ProfileList {
     String Title;
 
     String Description;
+    String MeetingUuid;
+    String UserId;
 
     public String getClassName() {
         return ClassName;
@@ -36,21 +42,27 @@ public class ProfileList {
 
 
 
-    public ProfileList(int profile_img, String className, String teamtype,String teamLeader,String desiredcount, String title, String description) {
+    public ProfileList(int profile_img, String className, String teamtype,String teamLeader,String userMajor, String userstunum,String desiredcount, String title, String description, String meetinguuid, String userid) {
         this.profile_img = profile_img;
 
         ClassName = className;
         Teamtype = teamtype;
         TeamLeader = teamLeader;
+        UserMajor =userMajor;
+        Userstunum = userstunum;
         DesiredCount = desiredcount;
         Title = title;
         Description = description;
+        MeetingUuid = meetinguuid;
+        UserId = userid;
+
 
 
 
     }
 
 
-
-
+    public String getMeetingUuid() {
+        return MeetingUuid;
+    }
 }

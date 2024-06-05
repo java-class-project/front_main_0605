@@ -95,6 +95,39 @@
                         android:text="ooo"
                         android:textColor="#00138F" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="( "
+                        android:textColor="#00138F" />
+
+
+                    <TextView
+                        android:id="@+id/iv_usermajor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="it공학과 "
+                        android:textColor="#00138F" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" "
+                        android:textColor="#00138F" />
+
+                    <TextView
+                        android:id="@+id/iv_userstnum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2010929"
+                        android:textColor="#00138F" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" )"
+                        android:textColor="#00138F" />
+
 
                 </LinearLayout>
 
