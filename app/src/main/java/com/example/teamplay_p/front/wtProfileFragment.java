@@ -78,10 +78,8 @@ public class wtProfileFragment extends Fragment {
         // 분반 스피너 어댑터
         // ArrayAdapter를 사용하여 Spinner에 데이터를 설정
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.Snum_array, android.R.layout.simple_spinner_item);
-
         // 드롭다운 레이아웃을 설정
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         // Spinner에 어댑터를 설정
         spn_Snum.setAdapter(adapter);
 

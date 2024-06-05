@@ -206,9 +206,14 @@ public class homeFragment extends Fragment {
                             meeting.getSubjectName(),
                             meeting.getTeamType(),
                             meeting.getUsername(),
+                            meeting.getuserMajor(),
+                            meeting.getuserstudentNumber(),
                             String.valueOf(meeting.getDesiredCount()),
+                            meeting.getDate(),
                             meeting.getTitle(),
-                            meeting.getDescription()
+                            meeting.getDescription(),
+                            meeting.getMeetingUuid(),
+                            meeting.getUserId()
                     );
                     profileArrayList.add(profile);
                 }
