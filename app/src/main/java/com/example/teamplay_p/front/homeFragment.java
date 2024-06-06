@@ -128,7 +128,7 @@ public class homeFragment extends Fragment {
                 fetchMeetings();
                 break;
             case 1 : // 필터링 결과 반영 홈화면
-                fetchFiltering(filterResult);
+                profileArrayList = fetchFiltering(filterResult);
                 break;
                 /*
 	case 2 : // 검색 결과 반영 홈화면
@@ -149,6 +149,7 @@ public class homeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                /*
                 if (newText.isEmpty()) {
                     // 검색어가 비어 있으면 전체 목록을 보여줍니다.
                     profileAdapter.filterList(null); // null을 전달하여 전체 목록을 보여줍니다.
@@ -156,6 +157,9 @@ public class homeFragment extends Fragment {
                     // 검색어가 비어 있지 않으면 필터링 수행
                     filter(newText);
                 }
+
+                 */
+                filter(newText);
                 return true;
             }
         });
@@ -225,7 +229,7 @@ public class homeFragment extends Fragment {
         });
     }
 
-    private void fetchFiltering(List<MeetingResponse> filterResult){
+    private ArrayList<ProfileList> fetchFiltering(List<MeetingResponse> filterResult){
             if (filterResult == null ||  filterResult.isEmpty()) {
                 Log.e("homeFragment","No Filtering meetings found");
                 Toast.makeText(getContext(), "No Filtering meetings found", Toast.LENGTH_SHORT).show();
@@ -252,6 +256,7 @@ public class homeFragment extends Fragment {
                 profileAdapter.notifyDataSetChanged();
                 Toast.makeText(getContext(), "Filtering Meetings loaded successfully", Toast.LENGTH_SHORT).show();
             }
+            return profileArrayList;
     }
 
      private void filter(String query){
@@ -261,19 +266,19 @@ public class homeFragment extends Fragment {
              filteredList.addAll(profileArrayList);
          } else {
              // 검색어가 비어 있지 않으면 필터링 수행
-             for (ProfileList item : profileArrayList){
+             for (ProfileList item : profileArrayList) {
                  if (item.getClassName().toLowerCase().contains(query.toLowerCase()) ||
                          item.getTeamLeader().toLowerCase().contains(query.toLowerCase()) ||
                          item.getUserMajor().toLowerCase().contains(query.toLowerCase()) ||
-                         item.getTitle().toLowerCase().contains(query.toLowerCase())){
+                         item.getTitle().toLowerCase().contains(query.toLowerCase())) {
                      filteredList.add(item);
                  }
              }
          }
-        profileAdapter.filterList(filteredList);
+
+
+         profileAdapter.filterList(filteredList);
     }
-
-
 }
 
 

@@ -34,6 +34,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
 
     static Context context;
     static ArrayList<ProfileList> profileListArrayList;
+    private ArrayList<ProfileList> originalList;
 
     Button btn_register;
 
@@ -48,6 +49,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
 
         this.context = context;
         this.profileListArrayList = profileListArrayList;
+        this.originalList = new ArrayList<>(profileListArrayList); // 원본 목록 저장
 
     }
 
@@ -112,16 +114,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
     }
 
     public void filterList(ArrayList<ProfileList> filteredList) {
-        if (filteredList != null) {
-            profileListArrayList.clear(); // 기존 목록을 지우고
-            if (filteredList.isEmpty()) {
-                // 필터링된 목록이 비어 있는 경우, 전체 목록을 유지합니다.
-                profileListArrayList.addAll(profileListArrayList);
-            } else {
-                profileListArrayList.addAll(filteredList); // 필터링된 목록을 추가합니다.
-            }
-            notifyDataSetChanged();
+        if (filteredList == null) {
+            profileListArrayList = new ArrayList<>(originalList); // 전체 목록을 다시 할당
+        } else {
+            profileListArrayList = filteredList;
         }
+        notifyDataSetChanged();
     }
 
     public class ProfileAdapterHolder extends RecyclerView.ViewHolder {
