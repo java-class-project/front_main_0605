@@ -1,13 +1,19 @@
 package com.example.teamplay_p.front;
 
+import static java.util.Locale.filter;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
@@ -19,11 +25,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.teamplay_p.ApiService;
 import com.example.teamplay_p.R;
 import com.example.teamplay_p.RetrofitClient;
+import com.example.teamplay_p.dto.meeting.Meeting;
 import com.example.teamplay_p.dto.meeting.MeetingResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,17 +43,18 @@ public class homeFragment extends Fragment {
     private ArrayList<ProfileList> profileArrayList;
     private ProfileAdapter profileAdapter;
     private RecyclerView recyclerView;
+    private SearchView searchView;
 
-    private String[] className;
-    private String[] classNumber;
-    private String[] teamType;
-    private String[] experience;
-    private String[] mbti;
-    private int profile_img;
-    private String[] profileName;
-    private String[] cmt;
 
     filterFragment FilterFragment;
+
+    public int checkState = 0;
+    public List<MeetingResponse> filterResult = null;
+
+    private ApiService apiService;
+
+
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -93,18 +102,58 @@ public class homeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         profileAdapter = new ProfileAdapter(getContext(), profileArrayList);
         recyclerView.setAdapter(profileAdapter);
+        searchView = view.findViewById(R.id.searchView);
+
+
 
         // 토큰 읽어오기
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Token", Context.MODE_PRIVATE);
         String authToken = sharedPreferences.getString("authToken", "");
 
+        /*
         // 서버에서 데이터 불러오기
         fetchMeetings();
+        */
 
-        recyclerView = view.findViewById(R.id.rv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        profileAdapter = new ProfileAdapter(getContext(), profileArrayList);
-        recyclerView.setAdapter(profileAdapter);
+        switch(checkState){
+            case 0 : // 기본 디폴트 홈화면 : 전체 모임 목록 조회
+                fetchMeetings();
+                break;
+            case 1 : // 필터링 결과 반영 홈화면
+                profileArrayList = fetchFiltering(filterResult);
+                break;
+                /*
+	case 2 : // 검색 결과 반영 홈화면
+	fetchSearch(); */
+
+            default :
+                Log.e("homeFragment","모임 목록 조회 에러 발생!");
+                Toast.makeText(getContext(), "모임 목록 조회 에러 발생!", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    // 검색어가 비어 있으면 전체 목록을 보여줍니다.
+                    profileAdapter.filterList(profileArrayList); // null을 전달하여 전체 목록을 보여줍니다.
+                } else {
+                    // 검색어가 비어 있지 않으면 필터링 수행
+                    filter(newText);
+                }
+                return true;
+
+            }
+        });
+
+
 
 
         return view;
@@ -112,16 +161,12 @@ public class homeFragment extends Fragment {
 
 
 
-        }
+    }
         //미리 저장해둔 데이터 불러옴
         //dataInitialize();
 
     private void fetchMeetings() {
-        // Retrofit 클라이언트 가져오기
-        Retrofit retrofit = RetrofitClient.getClient(null);
-
-        // ApiService 인터페이스 생성
-        ApiService apiService = retrofit.create(ApiService.class);
+        apiService = RetrofitClient.getClient(null).create(ApiService.class);
 
         // 서버에 GET 요청 보내기
         Call<List<MeetingResponse>> call = apiService.getAllMeetings();
@@ -133,19 +178,31 @@ public class homeFragment extends Fragment {
                     if (meetings.isEmpty()) {
                         Toast.makeText(getContext(), "No meetings found", Toast.LENGTH_SHORT).show();
                     } else {
-                        profileArrayList.clear(); // 기존 데이터를 지우고 새로운 데이터로 대체
+                         profileArrayList.clear(); // 기존 데이터를 지우고 새로운 데이터로 대체
                         for (MeetingResponse meeting : meetings) {
                             ProfileList profile = new ProfileList(
                                     R.mipmap.ic_launcher, // Example image resource
                                     meeting.getSubjectName(),
+                                    String.valueOf(meeting.getclassNum()),
                                     meeting.getTeamType(),
                                     meeting.getUsername(),
+                                    meeting.getuserMajor(),
+                                    meeting.getuserstudentNumber(),
                                     String.valueOf(meeting.getDesiredCount()),
+                                    meeting.getDate(),
                                     meeting.getTitle(),
-                                    meeting.getDescription()
+                                    meeting.getDescription(),
+                                    meeting.getMeetingUuid(),
+                                    meeting.getUserId()
                             );
+
+
                             profileArrayList.add(profile);
                         }
+                        // 데이터 저장
+
+
+
                         profileAdapter.notifyDataSetChanged();
                         Toast.makeText(getContext(), "Meetings loaded successfully", Toast.LENGTH_SHORT).show();
                     }
@@ -161,63 +218,57 @@ public class homeFragment extends Fragment {
         });
     }
 
-
-
-
-
+    private ArrayList<ProfileList> fetchFiltering(List<MeetingResponse> filterResult){
+            if (filterResult == null ||  filterResult.isEmpty()) {
+                Log.e("homeFragment","No Filtering meetings found");
+                Toast.makeText(getContext(), "No Filtering meetings found", Toast.LENGTH_SHORT).show();
+            } else {
+                profileArrayList.clear(); // 기존 데이터를 지우고 새로운 데이터로 대체
+                for (MeetingResponse meeting : filterResult) {
+                    ProfileList profile = new ProfileList(
+                            R.mipmap.ic_launcher, // Example image resource
+                            meeting.getSubjectName(),
+                            String.valueOf(meeting.getclassNum()),
+                            meeting.getTeamType(),
+                            meeting.getUsername(),
+                            meeting.getuserMajor(),
+                            meeting.getuserstudentNumber(),
+                            String.valueOf(meeting.getDesiredCount()),
+                            meeting.getDate(),
+                            meeting.getTitle(),
+                            meeting.getDescription(),
+                            meeting.getMeetingUuid(),
+                            meeting.getUserId()
+                    );
+                    profileArrayList.add(profile);
+                }
+                profileAdapter.notifyDataSetChanged();
+                Toast.makeText(getContext(), "Filtering Meetings loaded successfully", Toast.LENGTH_SHORT).show();
+            }
+            return profileArrayList;
     }
 
-    /*
-    private void dataInitialize() {
-        className = new String[]{
-                "객체지향프로그래밍",
-                "컴퓨터아키텍쳐",
-                "융사글",
-                "논사소"
-        };
+     private void filter(String query){
+        ArrayList<ProfileList> filteredList = new ArrayList<>();
+         if (query.isEmpty()) {
+             // 검색어가 비어 있으면 원래의 목록을 그대로 사용
+             filteredList.addAll(profileArrayList);
+         } else {
+             // 검색어가 비어 있지 않으면 필터링 수행
+             for (ProfileList item : profileArrayList) {
+                 if (item.getClassName().toLowerCase().contains(query.toLowerCase()) ||
+                         item.getTeamLeader().toLowerCase().contains(query.toLowerCase()) ||
+                         item.getUserMajor().toLowerCase().contains(query.toLowerCase()) ||
+                         item.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                     filteredList.add(item);
+                 }
+             }
+         }
 
-        teamType = new String[]{
-                "팀플",
-                "스터디"
-        };
 
-        classNumber = new String[]{
-                "1분반", "2분반", "3분반"
-        };
-
-        experience = new String[]{
-                "유",
-                "무"
-        };
-
-        mbti = new String[]{
-                "intp",
-                "isfp"
-        };
-
-        profile_img = R.mipmap.ic_launcher;
-
-        profileName = new String[]{
-                "현유리",
-                "정은경",
-                "이지민",
-                "하지민",
-                "최유정"
-        };
-
-        cmt = new String[]{
-                "안녕하세요",
-                "열심히 하겠습니다!"
-        };
-
-        ProfileList profileList = new ProfileList(profile_img, className[0], classNumber[0], teamType[0], experience[0], profileName[0], mbti[0], cmt[0]);
-        profileArrayList.add(profileList);
-
-        ProfileList profileList2 = new ProfileList(profile_img, className[1], classNumber[0], teamType[0], experience[0], profileName[1], mbti[1], cmt[1]);
-        profileArrayList.add(profileList2);
+         profileAdapter.filterList(filteredList);
     }
-
-     */
+}
 
 
 

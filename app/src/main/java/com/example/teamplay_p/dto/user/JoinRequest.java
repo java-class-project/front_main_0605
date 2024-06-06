@@ -21,7 +21,7 @@ public class JoinRequest {
     private String  subMajor2;
 
     // 생성자
-    public JoinRequest(String username, String userId, String password, String confirmPassword, String studentNumber, String mainMajor, String  subMajor1){
+    public JoinRequest(String username, String userId, String password, String confirmPassword, String studentNumber, String mainMajor, String  subMajor1, String subMajor2){
         this.username = username;
         this.userId = userId;
         this.password = password;
@@ -29,7 +29,7 @@ public class JoinRequest {
         this.studentNumber = studentNumber;
         this.mainMajor = mainMajor;
         this.subMajor1 = subMajor1;
-        //this.subMajor2 = subMajor2;
+        this.subMajor2 = subMajor2;
     }
 
     public String getUsername() {

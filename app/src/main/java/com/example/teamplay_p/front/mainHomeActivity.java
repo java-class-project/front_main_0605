@@ -27,6 +27,7 @@ public class mainHomeActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, HomeFragment).commit();
 
         NavigationBarView navigationBarView = findViewById(R.id.bottomnavigationview);
+        navigationBarView.setSelectedItemId(R.id.action_home);
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
