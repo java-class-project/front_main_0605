@@ -3,6 +3,7 @@ package com.example.teamplay_p.front;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.teamplay_p.ApiService;
 import com.example.teamplay_p.R;
 import com.example.teamplay_p.RetrofitClient;
+import com.example.teamplay_p.dto.meeting.Meeting;
 import com.example.teamplay_p.dto.meeting.MeetingResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -46,6 +48,11 @@ public class homeFragment extends Fragment {
     private String[] cmt;
 
     filterFragment FilterFragment;
+
+    public int checkState = 0;
+    public List<MeetingResponse> filterResult = null;
+
+    private ApiService apiService;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -87,8 +94,6 @@ public class homeFragment extends Fragment {
 
         profileArrayList = new ArrayList<>();
 
-
-
         recyclerView = view.findViewById(R.id.rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         profileAdapter = new ProfileAdapter(getContext(), profileArrayList);
@@ -98,8 +103,25 @@ public class homeFragment extends Fragment {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Token", Context.MODE_PRIVATE);
         String authToken = sharedPreferences.getString("authToken", "");
 
-        // 서버에서 데이터 불러오기
-        fetchMeetings();
+
+        switch(checkState){
+            case 0 : // 기본 디폴트 홈화면 : 전체 모임 목록 조회
+                fetchMeetings();
+                break;
+            case 1 : // 필터링 결과 반영 홈화면
+                fetchFiltering(filterResult);
+                break;
+                /*
+	        case 2 : // 검색 결과 반영 홈화면
+	        fetchSearch();
+	    `   break;
+                */
+            default :
+                Log.e("homeFragment","모임 목록 조회 에러 발생!");
+                Toast.makeText(getContext(), "모임 목록 조회 에러 발생!", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
 
         recyclerView = view.findViewById(R.id.rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -112,16 +134,12 @@ public class homeFragment extends Fragment {
 
 
 
-        }
+    }
         //미리 저장해둔 데이터 불러옴
         //dataInitialize();
 
     private void fetchMeetings() {
-        // Retrofit 클라이언트 가져오기
-        Retrofit retrofit = RetrofitClient.getClient(null);
-
-        // ApiService 인터페이스 생성
-        ApiService apiService = retrofit.create(ApiService.class);
+        apiService = RetrofitClient.getClient(null).create(ApiService.class);
 
         // 서버에 GET 요청 보내기
         Call<List<MeetingResponse>> call = apiService.getAllMeetings();
@@ -161,63 +179,33 @@ public class homeFragment extends Fragment {
         });
     }
 
-
-
-
-
+    private void fetchFiltering(List<MeetingResponse> filterResult){
+            if (filterResult == null ||  filterResult.isEmpty()) {
+                Log.e("homeFragment","No Filtering meetings found");
+                Toast.makeText(getContext(), "No Filtering meetings found", Toast.LENGTH_SHORT).show();
+            } else {
+                profileArrayList.clear(); // 기존 데이터를 지우고 새로운 데이터로 대체
+                for (MeetingResponse meeting : filterResult) {
+                    ProfileList profile = new ProfileList(
+                            R.mipmap.ic_launcher, // Example image resource
+                            meeting.getSubjectName(),
+                            meeting.getTeamType(),
+                            meeting.getUsername(),
+                            String.valueOf(meeting.getDesiredCount()),
+                            meeting.getTitle(),
+                            meeting.getDescription()
+                    );
+                    profileArrayList.add(profile);
+                }
+                profileAdapter.notifyDataSetChanged();
+                Toast.makeText(getContext(), "Filtering Meetings loaded successfully", Toast.LENGTH_SHORT).show();
+            }
     }
 
-    /*
-    private void dataInitialize() {
-        className = new String[]{
-                "객체지향프로그래밍",
-                "컴퓨터아키텍쳐",
-                "융사글",
-                "논사소"
-        };
 
-        teamType = new String[]{
-                "팀플",
-                "스터디"
-        };
+}
 
-        classNumber = new String[]{
-                "1분반", "2분반", "3분반"
-        };
 
-        experience = new String[]{
-                "유",
-                "무"
-        };
-
-        mbti = new String[]{
-                "intp",
-                "isfp"
-        };
-
-        profile_img = R.mipmap.ic_launcher;
-
-        profileName = new String[]{
-                "현유리",
-                "정은경",
-                "이지민",
-                "하지민",
-                "최유정"
-        };
-
-        cmt = new String[]{
-                "안녕하세요",
-                "열심히 하겠습니다!"
-        };
-
-        ProfileList profileList = new ProfileList(profile_img, className[0], classNumber[0], teamType[0], experience[0], profileName[0], mbti[0], cmt[0]);
-        profileArrayList.add(profileList);
-
-        ProfileList profileList2 = new ProfileList(profile_img, className[1], classNumber[0], teamType[0], experience[0], profileName[1], mbti[1], cmt[1]);
-        profileArrayList.add(profileList2);
-    }
-
-     */
 
 
 
