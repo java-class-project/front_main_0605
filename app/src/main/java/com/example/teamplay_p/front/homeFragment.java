@@ -45,14 +45,6 @@ public class homeFragment extends Fragment {
     private RecyclerView recyclerView;
     private SearchView searchView;
 
-    private String[] className;
-    private String[] classNumber;
-    private String[] teamType;
-    private String[] experience;
-    private String[] mbti;
-    private int profile_img;
-    private String[] profileName;
-    private String[] cmt;
 
     filterFragment FilterFragment;
 
