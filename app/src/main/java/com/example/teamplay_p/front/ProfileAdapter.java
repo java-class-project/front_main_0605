@@ -18,9 +18,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.teamplay_p.ApiService;
 import com.example.teamplay_p.R;
+import com.example.teamplay_p.RetrofitClient;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileAdapterHolder> {
 
@@ -30,6 +38,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
     Button btn_register;
 
     private static int team_img;
+
 
 
 
@@ -60,11 +69,19 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         ProfileList profileList = profileListArrayList.get(position);
         holder.profile_img.setImageResource(profileList.profile_img);
         holder.ClassName.setText(profileList.ClassName);
+        holder.ClassNumber.setText(profileList.CLassnum);
         holder.TeamType.setText(profileList.Teamtype);
         holder.TeamLeader.setText(profileList.TeamLeader);
+        holder.UserMajor.setText(profileList.UserMajor);
+        holder.Userstunum.setText(profileList.Userstunum);
         holder.Desiredcount.setText(profileList.DesiredCount);
         holder.Title.setText(profileList.Title);
         holder.Description.setText(profileList.Description);
+
+        // date를 TextView에 설정
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = sdf.format(profileList.getDate());
+        holder.Date.setText(dateString);
 
         holder.btn_teaminfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,22 +111,41 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         return profileListArrayList.size();
     }
 
+    public void filterList(ArrayList<ProfileList> filteredList) {
+        if (filteredList != null) {
+            profileListArrayList.clear(); // 기존 목록을 지우고
+            if (filteredList.isEmpty()) {
+                // 필터링된 목록이 비어 있는 경우, 전체 목록을 유지합니다.
+                profileListArrayList.addAll(profileListArrayList);
+            } else {
+                profileListArrayList.addAll(filteredList); // 필터링된 목록을 추가합니다.
+            }
+            notifyDataSetChanged();
+        }
+    }
+
     public class ProfileAdapterHolder extends RecyclerView.ViewHolder {
 
         Button btn_register,btn_teaminfo;
         ImageView profile_img;
         int team_img;
 
-        TextView major,ClassName,Desiredcount,ClassNumber, TeamType,Title, Description, TeamLeader;
+        TextView major,ClassName,Desiredcount, TeamType,Title, Description, TeamLeader,UserMajor, Userstunum,Date;
+
+        TextView ClassNumber;
 
 
         public ProfileAdapterHolder(@NonNull View itemView) {
             super(itemView);
             profile_img = itemView.findViewById(R.id.iv_profile);
             ClassName = itemView.findViewById(R.id.iv_ClassName);
+            ClassNumber = itemView.findViewById(R.id.iv_subjectNum);
             TeamType = itemView.findViewById(R.id.iv_teamtype);
             TeamLeader = itemView.findViewById(R.id.iv_username);
+            UserMajor = itemView.findViewById(R.id.iv_usermajor);
+            Userstunum = itemView.findViewById(R.id.iv_userstnum);
             Desiredcount = itemView.findViewById(R.id.iv_desiredcount);
+            Date = itemView.findViewById(R.id.iv_date);
             Title = itemView.findViewById(R.id.iv_title);
             Description = itemView.findViewById(R.id.iv_description);
 
@@ -121,9 +157,25 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
 
             btn_teaminfo = itemView.findViewById(R.id.btn_showinfo);
 
+            btn_register.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String meetingId = profileListArrayList.get(getAdapterPosition()).getMeetingUuid();
+                    // 서버의 메서드 호출
+
+                }
+            });
+
 
 
         }
+
+
+
+
+
+
+
     }
 
 

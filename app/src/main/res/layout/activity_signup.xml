@@ -350,23 +350,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="7dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="연계전공 [선택 사항]"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    tools:ignore="HardcodedText,VisualLintBounds" />
-
-                <Spinner
-                    android:id="@+id/related_spinner"
-                    style="@style/Widget.Myspinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="7dp" />
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

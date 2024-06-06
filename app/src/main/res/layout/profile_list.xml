@@ -26,7 +26,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="2dp">
 
             <ImageView
                 android:id="@+id/iv_profile"
@@ -39,7 +40,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="1dp">
 
 
                 <TextView
@@ -53,12 +55,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/iv_subjectNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1"
-                        android:textColor="#00138F"/>
+                        android:textColor="#00138F" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -95,6 +98,39 @@
                         android:text="ooo"
                         android:textColor="#00138F" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="( "
+                        android:textColor="#00138F" />
+
+
+                    <TextView
+                        android:id="@+id/iv_usermajor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="it공학과 "
+                        android:textColor="#00138F" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" "
+                        android:textColor="#00138F" />
+
+                    <TextView
+                        android:id="@+id/iv_userstnum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2010929"
+                        android:textColor="#00138F" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" )"
+                        android:textColor="#00138F" />
+
 
                 </LinearLayout>
 
@@ -107,7 +143,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -125,6 +162,32 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="게시날짜: "
+                android:textColor="#00138F"/>
+
+            <TextView
+                android:id="@+id/iv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2024-06-06-12:48"
+                android:textColor="#00138F"/>
+
+
+
+
+
+
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/btn_showinfo"
@@ -139,14 +202,19 @@
             android:layout_height="match_parent"
             android:background="@drawable/tv_background"
             android:text="안녕하세요"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:layout_marginHorizontal="4dp"
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="3dp"/>
 
         <TextView
             android:id="@+id/iv_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="팀플 같이하실분 찾습니다."
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:layout_marginHorizontal="7dp"
+            android:layout_marginTop="2dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
