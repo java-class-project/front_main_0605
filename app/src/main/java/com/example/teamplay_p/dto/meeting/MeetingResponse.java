@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class MeetingResponse {
 
-    private String meetingUuid;
+    private UUID meetingUuid;
     @SerializedName("subjectName")
     private String subjectName;
 
@@ -38,7 +38,7 @@ public class MeetingResponse {
 
     private Date date;
 
-    public MeetingResponse(String subjectName,int subjectNum, String teamType, String username, String userMajor, String studentNumber, int desiredCount, String title, String description, String meetingUuid,Date date ){
+    public MeetingResponse(String subjectName,int subjectNum, String teamType, String username, String userMajor, String studentNumber, int desiredCount, String title, String description, UUID meetingUuid,Date date ){
         this.subjectName = subjectName;
         this.classNum = subjectNum;
         this.teamType = teamType;
@@ -90,7 +90,7 @@ public class MeetingResponse {
         return studentNumber;
     }
 
-    public String getMeetingUuid() {
+    public UUID getMeetingUuid() {
         return meetingUuid;
     }
 
