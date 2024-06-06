@@ -45,6 +45,7 @@ public class filterFragment extends DialogFragment {
     private UUID subjectUuid;
     private String teamType;
     private CheckBox checkBoxTeam, checkBoxStudy, checkBoxProject;
+    private Integer classNum;
 
     homeFragment Filter_homeFragment;
 
@@ -117,12 +118,13 @@ public class filterFragment extends DialogFragment {
                         // XML 파일에서 문자열 배열을 가져오기
                         String[] subjectNumArray = getResources().getStringArray(R.array.Snum_array);
                         // 배열을 ArrayList로 변환
-                        ArrayList<String> subjectNumList = new ArrayList<>(Arrays.asList(subjectNumArray));
+                        ArrayList<String> classNumList = new ArrayList<>(Arrays.asList(subjectNumArray));
+                        /*
                         // ArrayList의 첫 번째 위치에 "전체"를 추가
-                        subjectNumList.add(0, "전체");
-
+                        classNumList.add(0, "전체");
+                        */
                         // 어댑터 생성
-                        ArrayAdapter<String> subjectNumAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, subjectNumList);
+                        ArrayAdapter<String> subjectNumAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, classNumList);
                         // 어댑터 연결
                         spn_dv.setAdapter(subjectNumAdapter);
                     }
@@ -147,23 +149,28 @@ public class filterFragment extends DialogFragment {
             // 선택된 필터링 조건들 전달해서 필터링 -> MeetingResponse 리스트 응답
             // 필터링이 반영된 홈 화면으로 전환
 
+            /// 분반 선택 처리
+            String selectedClassNum = (String) spn_dv.getSelectedItem();
+            classNum = Integer.parseInt(selectedClassNum);// classNum (string -> int)
+            //classNum = convertStringToInteger(selectedClassNum);
+
             /// 팀형태 선택 처리
             checkBoxTeam = view.findViewById(R.id.ftType_teamplay);
             checkBoxStudy = view.findViewById(R.id.ftType_study);
             checkBoxProject = view.findViewById(R.id.ftType_project);
 
-            List<String> selectedTeamtypes = new ArrayList<>();
+            List<String> teamTypes = new ArrayList<>();
             if(checkBoxTeam.isChecked()){
-                selectedTeamtypes.add("TeamProject");
+                teamTypes.add("TeamProject");
             }
             if(checkBoxStudy.isChecked()){
-                selectedTeamtypes.add("Study");
+                teamTypes.add("Study");
             }
             if(checkBoxProject.isChecked()){
-                selectedTeamtypes.add("Project");
+                teamTypes.add("Project");
             }
 
-            Call<List<MeetingResponse>> call = apiService.filterAndSearchMeetings(majorUuid, subjectUuid, selectedTeamtypes, null, null);
+            Call<List<MeetingResponse>> call = apiService.filterAndSearchMeetings(majorUuid, subjectUuid, teamTypes, classNum, null, null);
             call.enqueue(new Callback<List<MeetingResponse>>() {
                 @Override
                 public void onResponse(Call<List<MeetingResponse>> call, Response<List<MeetingResponse>> response) {

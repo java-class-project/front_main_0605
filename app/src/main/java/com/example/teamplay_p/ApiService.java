@@ -76,8 +76,8 @@ public interface ApiService {
 
     // 필터 및 검색
     @GET("/v1/meetings/search")
-    Call<List<MeetingResponse>> filterAndSearchMeetings(@Query("majorUuid") UUID majorUuid, @Query("subjectUuid") UUID subjectUuid,
-                                                        @Query("teamTypes") List<String> teamTypes, @Query("desiredCount") Integer desiredCount, @Query("searchText") String searchText);
+    Call<List<MeetingResponse>> filterAndSearchMeetings(@Query("majorUuid") UUID majorUuid, @Query("subjectUuid") UUID subjectUuid, @Query("teamTypes") List<String> teamTypes,
+                                                        @Query("classNum") Integer classNum,@Query("desiredCount") Integer desiredCount, @Query("searchText") String searchText);
 
 
     @GET("/v1/meetings")
