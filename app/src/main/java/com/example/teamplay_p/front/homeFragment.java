@@ -149,18 +149,15 @@ public class homeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                /*
                 if (newText.isEmpty()) {
                     // 검색어가 비어 있으면 전체 목록을 보여줍니다.
-                    profileAdapter.filterList(null); // null을 전달하여 전체 목록을 보여줍니다.
+                    profileAdapter.filterList(profileArrayList); // null을 전달하여 전체 목록을 보여줍니다.
                 } else {
                     // 검색어가 비어 있지 않으면 필터링 수행
                     filter(newText);
                 }
-
-                 */
-                filter(newText);
                 return true;
+
             }
         });
 
