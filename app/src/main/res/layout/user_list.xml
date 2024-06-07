@@ -94,9 +94,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="it공학부"
-                        android:textColor="#00138F"/>
+                        android:textColor="#00138F" />
 
                 </LinearLayout>
+
+
                 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -106,7 +108,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="부전공: "
+                        android:text="복수전공: "
                         android:textColor="#00138F"/>
 
                     <TextView
@@ -129,7 +131,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="연계전공: "
+                        android:text="부전공: "
                         android:textColor="#00138F"/>
 
                     <TextView
