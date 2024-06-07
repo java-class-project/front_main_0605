@@ -156,11 +156,46 @@
             <TextView
                 android:id="@+id/iv_desiredcount"
                 android:layout_width="wrap_content"
+                android:layout_height="21dp"
+                android:text="5"
+                android:textColor="#00138F" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="팀현황: "
+                android:textColor="#00138F" />
+
+            <TextView
+                android:id="@+id/iv_meetingRecruitmentFinished"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="#00138F"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" / "
+                android:textColor="#00138F"/>
+
+            <TextView
+                android:id="@+id/iv_meetingRecruitment"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5"
                 android:textColor="#00138F"/>
 
+
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class MeetingResponse {
 
-    private String meetingUuid;
+    private UUID meetingUuid;
     @SerializedName("subjectName")
     private String subjectName;
 
@@ -35,10 +35,13 @@ public class MeetingResponse {
     @SerializedName("description")
     private String description;
 
+    private int meetingRecruitment;
+    private int meetingRecruitmentFinished;
+
 
     private Date date;
 
-    public MeetingResponse(String subjectName,int subjectNum, String teamType, String username, String userMajor, String studentNumber, int desiredCount, String title, String description, String meetingUuid,Date date ){
+    public MeetingResponse(String subjectName,int subjectNum, String teamType, String username, String userMajor, String studentNumber, int desiredCount, int meetingRecruitmentFinished, int meetingRecruitment, String title, String description, UUID meetingUuid,Date date ){
         this.subjectName = subjectName;
         this.classNum = subjectNum;
         this.teamType = teamType;
@@ -46,6 +49,8 @@ public class MeetingResponse {
         this.userMajor = userMajor;
         this.studentNumber = studentNumber;
         this.desiredCount = desiredCount;
+        this.meetingRecruitment = meetingRecruitment;
+        this.meetingRecruitmentFinished = meetingRecruitmentFinished;
         this.title = title;
         this.description = description;
         this.meetingUuid = meetingUuid;
@@ -90,7 +95,7 @@ public class MeetingResponse {
         return studentNumber;
     }
 
-    public String getMeetingUuid() {
+    public UUID getMeetingUuid() {
         return meetingUuid;
     }
 
@@ -105,6 +110,13 @@ public class MeetingResponse {
     public int getclassNum() {
         return classNum;
     }
+
+    public int getmeetingRecruitmentFinished() { return meetingRecruitmentFinished;
+    }
+
+    public int getmeetingRecruitment() { return meetingRecruitment;
+    }
+
 
     // 변경된 부분: dateString 반환하는 메서드 추가
 

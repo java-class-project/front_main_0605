@@ -3,12 +3,15 @@ package com.example.teamplay_p.front;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,6 +32,7 @@ import java.util.UUID;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileAdapterHolder> {
 
@@ -40,6 +44,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
 
     private static int team_img;
 
+    private MyWebSocketClient webSocketClient;
+
 
 
 
@@ -50,6 +56,16 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         this.context = context;
         this.profileListArrayList = profileListArrayList;
         this.originalList = new ArrayList<>(profileListArrayList); // 원본 목록 저장
+
+        // WebSocket 클라이언트 초기화
+        webSocketClient = new MyWebSocketClient();
+        webSocketClient.setOnMessageReceivedListener(new MyWebSocketClient.OnMessageReceivedListener() {
+            @Override
+            public void onMessageReceived(String message) {
+                // 메시지 수신 시 동작 정의
+                Toast.makeText(context, "WebSocket Message: " + message, Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -77,6 +93,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         holder.UserMajor.setText(profileList.UserMajor);
         holder.Userstunum.setText(profileList.Userstunum);
         holder.Desiredcount.setText(profileList.DesiredCount);
+        holder.MeetingRecruitmentFinished.setText(profileList.MeetingRecruitmentFinished);
+        holder.MeetingRecruitment.setText(profileList.MeetingRecruitment);
         holder.Title.setText(profileList.Title);
         holder.Description.setText(profileList.Description);
 
@@ -130,7 +148,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
 
         TextView major,ClassName,Desiredcount, TeamType,Title, Description, TeamLeader,UserMajor, Userstunum,Date;
 
-        TextView ClassNumber;
+        TextView ClassNumber, MeetingRecruitment, MeetingRecruitmentFinished;
 
 
         public ProfileAdapterHolder(@NonNull View itemView) {
@@ -143,6 +161,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
             UserMajor = itemView.findViewById(R.id.iv_usermajor);
             Userstunum = itemView.findViewById(R.id.iv_userstnum);
             Desiredcount = itemView.findViewById(R.id.iv_desiredcount);
+            MeetingRecruitment = itemView.findViewById(R.id.iv_meetingRecruitment);
+            MeetingRecruitmentFinished = itemView.findViewById(R.id.iv_meetingRecruitmentFinished);
             Date = itemView.findViewById(R.id.iv_date);
             Title = itemView.findViewById(R.id.iv_title);
             Description = itemView.findViewById(R.id.iv_description);
@@ -158,9 +178,47 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
             btn_register.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String meetingId = profileListArrayList.get(getAdapterPosition()).getMeetingUuid();
-                    // 서버의 메서드 호출
+                    UUID meetingid = profileListArrayList.get(getAdapterPosition()).getMeetingUuid();
 
+                    // Display the meeting UUID in a Toast
+                    Toast.makeText(context, "Meeting UUID: " + meetingid, Toast.LENGTH_SHORT).show();
+
+
+                    // 토큰 읽어오기
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("Token", Context.MODE_PRIVATE);
+                    String authToken = sharedPreferences.getString("authToken", "");
+
+                    // Retrofit 클라이언트 생성
+                    Retrofit retrofit = RetrofitClient.getClient(authToken);
+
+                    // ApiService 인터페이스 구현체 생성
+                    ApiService apiService = retrofit.create(ApiService.class);
+
+                    // 서버에 POST 요청 보내기
+                    Call<Void> call = apiService.applyForMeeting(meetingid);
+                    call.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.isSuccessful()) {
+                                // 서버 요청이 성공한 경우
+                                // 예: 성공 메시지 표시
+                                Toast.makeText(context, "신청이 성공적으로 전송되었습니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // 서버 요청이 실패한 경우
+                                // 예: 실패 메시지 표시
+                                String errorMessage = "실패: " + response.code() + " " + response.message();
+                                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            // 서버 요청이 실패한 경우
+                            // 네트워크 오류 등으로 인한 경우
+                            // 예: 오류 메시지 표시
+                            Toast.makeText(context, "네트워크 오류: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
 
