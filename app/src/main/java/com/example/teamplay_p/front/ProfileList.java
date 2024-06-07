@@ -33,6 +33,8 @@ public class ProfileList {
     UUID MeetingUuid;
     String UserId;
 
+    String Status;
+
     public String getClassName() {
         return ClassName;
     }
@@ -59,7 +61,7 @@ public class ProfileList {
     }
 
 
-    public ProfileList(int profile_img, String className, String classnum, String teamtype, String teamLeader, String userMajor, String userstunum, String desiredcount, String meetingRecruitmentFinished, String meetingRecruitment, Date date, String title, String description, UUID meetinguuid, String userid) {
+    public ProfileList(int profile_img, String className, String classnum, String teamtype, String teamLeader, String userMajor, String userstunum,String status, String desiredcount, String meetingRecruitmentFinished, String meetingRecruitment, Date date, String title, String description, UUID meetinguuid, String userid) {
 
         this.profile_img = profile_img;
 
@@ -69,6 +71,7 @@ public class ProfileList {
         TeamLeader = teamLeader;
         UserMajor =userMajor;
         Userstunum = userstunum;
+        Status = status;
         DesiredCount = desiredcount;
         MeetingRecruitmentFinished = meetingRecruitmentFinished;
         MeetingRecruitment = meetingRecruitment;
