@@ -192,7 +192,7 @@ public class filterFragment extends DialogFragment {
                 status.add("person");
             }
             if(checkBoxTeam.isChecked()){
-                teamTypes.add("team");
+                status.add("team");
             }
 
 
