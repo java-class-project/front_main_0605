@@ -246,6 +246,7 @@ public class homeFragment extends Fragment {
             return profileArrayList;
     }
 
+
      private void filter(String query){
         ArrayList<ProfileList> filteredList = new ArrayList<>();
          if (query.isEmpty()) {
