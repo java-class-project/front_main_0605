@@ -44,6 +44,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
 
     private static int team_img;
 
+    private MyWebSocketClient webSocketClient;
+
 
 
 
@@ -54,6 +56,16 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         this.context = context;
         this.profileListArrayList = profileListArrayList;
         this.originalList = new ArrayList<>(profileListArrayList); // 원본 목록 저장
+
+        // WebSocket 클라이언트 초기화
+        webSocketClient = new MyWebSocketClient();
+        webSocketClient.setOnMessageReceivedListener(new MyWebSocketClient.OnMessageReceivedListener() {
+            @Override
+            public void onMessageReceived(String message) {
+                // 메시지 수신 시 동작 정의
+                Toast.makeText(context, "WebSocket Message: " + message, Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -81,6 +93,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         holder.UserMajor.setText(profileList.UserMajor);
         holder.Userstunum.setText(profileList.Userstunum);
         holder.Desiredcount.setText(profileList.DesiredCount);
+        holder.MeetingRecruitmentFinished.setText(profileList.MeetingRecruitmentFinished);
+        holder.MeetingRecruitment.setText(profileList.MeetingRecruitment);
         holder.Title.setText(profileList.Title);
         holder.Description.setText(profileList.Description);
 
@@ -134,7 +148,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
 
         TextView major,ClassName,Desiredcount, TeamType,Title, Description, TeamLeader,UserMajor, Userstunum,Date;
 
-        TextView ClassNumber;
+        TextView ClassNumber, MeetingRecruitment, MeetingRecruitmentFinished;
 
 
         public ProfileAdapterHolder(@NonNull View itemView) {
@@ -147,6 +161,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
             UserMajor = itemView.findViewById(R.id.iv_usermajor);
             Userstunum = itemView.findViewById(R.id.iv_userstnum);
             Desiredcount = itemView.findViewById(R.id.iv_desiredcount);
+            MeetingRecruitment = itemView.findViewById(R.id.iv_meetingRecruitment);
+            MeetingRecruitmentFinished = itemView.findViewById(R.id.iv_meetingRecruitmentFinished);
             Date = itemView.findViewById(R.id.iv_date);
             Title = itemView.findViewById(R.id.iv_title);
             Description = itemView.findViewById(R.id.iv_description);
