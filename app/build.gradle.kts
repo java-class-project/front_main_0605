@@ -45,6 +45,9 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.preference)
     implementation(libs.navigation.runtime)
+    implementation(libs.okhttp)
+    implementation(libs.play.services.nearby)
+    implementation(libs.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

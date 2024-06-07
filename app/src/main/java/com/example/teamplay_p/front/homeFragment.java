@@ -122,10 +122,6 @@ public class homeFragment extends Fragment {
             case 1 : // 필터링 결과 반영 홈화면
                 profileArrayList = fetchFiltering(filterResult);
                 break;
-                /*
-	case 2 : // 검색 결과 반영 홈화면
-	fetchSearch(); */
-
             default :
                 Log.e("homeFragment","모임 목록 조회 에러 발생!");
                 Toast.makeText(getContext(), "모임 목록 조회 에러 발생!", Toast.LENGTH_SHORT).show();
@@ -162,8 +158,6 @@ public class homeFragment extends Fragment {
 
 
     }
-        //미리 저장해둔 데이터 불러옴
-        //dataInitialize();
 
     private void fetchMeetings() {
         apiService = RetrofitClient.getClient(null).create(ApiService.class);
@@ -183,12 +177,14 @@ public class homeFragment extends Fragment {
                             ProfileList profile = new ProfileList(
                                     R.mipmap.ic_launcher, // Example image resource
                                     meeting.getSubjectName(),
-                                    String.valueOf(meeting.getclassNum()),
+                                    String.valueOf(meeting.getClassNum()),
                                     meeting.getTeamType(),
                                     meeting.getUsername(),
                                     meeting.getuserMajor(),
                                     meeting.getuserstudentNumber(),
                                     String.valueOf(meeting.getDesiredCount()),
+                                    String.valueOf(meeting.getMeetingRecruitmentFinished()),
+                                    String.valueOf(meeting.getMeetingRecruitment()),
                                     meeting.getDate(),
                                     meeting.getTitle(),
                                     meeting.getDescription(),
@@ -228,12 +224,14 @@ public class homeFragment extends Fragment {
                     ProfileList profile = new ProfileList(
                             R.mipmap.ic_launcher, // Example image resource
                             meeting.getSubjectName(),
-                            String.valueOf(meeting.getclassNum()),
+                            String.valueOf(meeting.getClassNum()),
                             meeting.getTeamType(),
                             meeting.getUsername(),
                             meeting.getuserMajor(),
                             meeting.getuserstudentNumber(),
                             String.valueOf(meeting.getDesiredCount()),
+                            String.valueOf(meeting.getMeetingRecruitmentFinished()),
+                            String.valueOf(meeting.getMeetingRecruitment()),
                             meeting.getDate(),
                             meeting.getTitle(),
                             meeting.getDescription(),
@@ -247,6 +245,7 @@ public class homeFragment extends Fragment {
             }
             return profileArrayList;
     }
+
 
      private void filter(String query){
         ArrayList<ProfileList> filteredList = new ArrayList<>();

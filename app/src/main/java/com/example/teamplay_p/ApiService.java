@@ -10,17 +10,15 @@ import com.example.teamplay_p.dto.meeting.MeetingResponse;
 import com.example.teamplay_p.dto.subject.subject;
 import com.example.teamplay_p.dto.user.JoinRequest;
 import com.example.teamplay_p.dto.user.UpdateRequest;
-import com.example.teamplay_p.dto.user.User;
 import com.example.teamplay_p.dto.user.UserResponse;
 
+import java.sql.Struct;
 import java.util.List;
 import java.util.UUID;
 
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -59,9 +57,8 @@ public interface ApiService {
     @GET("/v1/user/{userUuid}")
     Call<UserResponse> getUserInfo(@Path("userUuid") String userUuid);
     // 회원정보 수정
-
     @PUT("/v1/user/{userUuid}")
-    Call<UserResponse> updateUserInfo(@Path("userUuid") String userUuid, @Body UserResponse body);
+    Call<UserResponse> updateUserInfo(@Path("userUuid") String userUuid, @Body UpdateRequest request);
     // 회원가입
     @POST("/v1/user/register")
     Call<UserResponse> registerUser(@Body JoinRequest request);
@@ -81,15 +78,16 @@ public interface ApiService {
     // 필터 및 검색
     @GET("/v1/meetings/search")
     Call<List<MeetingResponse>> filterAndSearchMeetings(@Query("majorUuid") UUID majorUuid, @Query("subjectUuid") UUID subjectUuid,
-                                                        @Query("teamTypes") List<String> teamTypes, @Query("desiredCount") Integer desiredCount, @Query("searchText") String searchText);
+                                                        @Query("teamTypes") List<String> teamTypes, @Query("classNum") Integer classNum,
+                                                        @Query("desiredCount") Integer desiredCount, @Query("searchText") String searchText,
+                                                        @Query("status") List<String> status);
 
 
     @GET("/v1/meetings")
     Call<List<MeetingResponse>> getAllMeetings();
 
-    // 내 모임 조회
-    @GET("/v1/meetings/{userUuid}")
-    Call<MeetingResponse> GetTeamInfo(@Path("userUuid") String userUuid);
+    @POST("/v1/meetings/{meetingId}/apply")
+    Call<Void> applyForMeeting(@Path("meetingId") UUID meetingId);
 
 
 
