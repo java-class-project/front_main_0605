@@ -60,24 +60,40 @@ public class UserResponse {
     public UUID getMainMajorUuid() {
         return mainMajorUuid;
     }
+    public void setMainMajorUuid(UUID uuid) { mainMajorUuid = uuid;}
 
     public String getMainMajorName() {
         return mainMajorName;
+    }
+    public void setMainMajorName(String name) {
+        this.mainMajorName = name;
     }
 
     public UUID getSubMajor1Uuid() {
         return subMajor1Uuid;
     }
+    public void setSubMajor1Uuid(UUID uuid) {
+        subMajor1Uuid = uuid;
+    }
 
     public String getSubMajor1Name() {
         return subMajor1Name;
+    }
+    public void setSubMajor1Name(String name) {
+        subMajor1Name = name;
     }
 
     public UUID getSubMajor2Uuid() {
         return subMajor2Uuid;
     }
+    public void setSubMajor2Uuid(UUID uuid) {
+        subMajor2Uuid = uuid;
+    }
 
     public String getSubMajor2Name() {
         return subMajor2Name;
+    }
+    public void setSubMajor2Name(String name) {
+        subMajor2Name = name;
     }
 }

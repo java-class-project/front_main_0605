@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.example.teamplay_p.dto.user.UserResponse;
 
 import java.util.List;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -90,50 +92,80 @@ public class InfoEditFragment extends Fragment {
                     String authToken = sharedPreferences.getString("authToken", "");
                     apiService = RetrofitClient.getClient(authToken).create(ApiService.class);
 
-                    UpdateRequest updateRequest = new UpdateRequest();
-
-                    Major selectedMainmajor = (Major) major_spinner.getSelectedItem(); // 스피너 선택 아이템 major 타입으로 변환해서 major 객체 selectedMainmajor에 받아옴
-                    updateRequest.mainMajor = selectedMainmajor.getMajorUuid().toString(); // getter로 UUID를 가져와서 mainMajor에 저장(String타입)
-
-                    if(double_spinner.getSelectedItemPosition() != 0) {
-                        Major selectedSubmajor1 = (Major) double_spinner.getSelectedItem();
-                        updateRequest.subMajor1 = selectedSubmajor1.getMajorUuid().toString();
-                    }
-
-                    if(minor_spinner.getSelectedItemPosition() != 0) {
-                        Major selectedSubmajor2 = (Major) minor_spinner.getSelectedItem();
-                        updateRequest.subMajor2 = selectedSubmajor2.getMajorUuid().toString();
-                    }
-
-                    Call<UserResponse> call = apiService.updateUserInfo(myPageFragment.uuid, updateRequest);
-                    // 여기 이렇게 보내는거 맞는지 확인해봐야함
+                    Call<UserResponse> call = apiService.getUserInfo(myPageFragment.uuid);
                     call.enqueue(new Callback<UserResponse>() {
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                            if(response.isSuccessful() && response.body()!=null){
+                            if (response.isSuccessful() && response.body() != null) {
                                 UserResponse userResponse = response.body();
-                                //userResponse.
-                                Toast.makeText(getActivity(), "수정되었습니다.", Toast.LENGTH_SHORT).show();
-                                // myPageFragment로 이동합니다.
-                                myPageFragment mypageFragment = new myPageFragment();
 
-                                // FragmentManager를 사용하여 Fragment를 추가합니다.
-                                requireActivity().getSupportFragmentManager().beginTransaction()
-                                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out) // 애니메이션 효과 추가 (선택사항)
-                                        .replace(R.id.frame_layout, mypageFragment)
-                                        .commit();
-                            }
-                            else{
-                                // response.message(): 서버 응답이 실패했을 때, 서버에서 제공하는 메시지를 표시
-                                Toast.makeText(getActivity(), "Edit Info failed."+ response.message(), Toast.LENGTH_SHORT).show();
+                                Major selectedMainmajor = (Major) major_spinner.getSelectedItem(); // 스피너 선택 아이템 major 타입으로 변환해서 major 객체 selectedMainmajor에 받아옴
+                                userResponse.setMainMajorUuid(selectedMainmajor.getMajorUuid()); // getter로 UUID를 가져와서 mainMajor에 저장(String타입)
+                                userResponse.setMainMajorName(selectedMainmajor.getMajorUuid().toString()); // getter로 UUID를 가져와서 mainMajor에 저장(String타입)
+
+                                if(double_spinner.getSelectedItemPosition() != 0) {
+                                    Major selectedSubmajor1 = (Major) double_spinner.getSelectedItem();
+                                    userResponse.setSubMajor1Uuid(selectedSubmajor1.getMajorUuid());
+                                    userResponse.setSubMajor1Name(selectedSubmajor1.getMajorUuid().toString());
+                                }
+                                else {
+                                    userResponse.setSubMajor1Uuid(null);
+                                    userResponse.setSubMajor1Name(null);
+                                }
+
+                                if(minor_spinner.getSelectedItemPosition() != 0) {
+                                    Major selectedSubmajor2 = (Major) minor_spinner.getSelectedItem();
+                                    userResponse.setSubMajor2Uuid(selectedSubmajor2.getMajorUuid());
+                                    userResponse.setSubMajor2Name(selectedSubmajor2.getMajorUuid().toString());
+                                }
+                                else{
+                                    userResponse.setSubMajor2Uuid(null);
+                                    userResponse.setSubMajor2Name(null);
+                                }
+
+                                Log.e("EditInfo", userResponse.getMainMajorName());
+                                Call<UserResponse> updatecall = apiService.updateUserInfo(myPageFragment.uuid, userResponse);
+                                // 여기 이렇게 보내는거 맞는지 확인해봐야함
+                                updatecall.enqueue(new Callback<UserResponse>() {
+                                    @Override
+                                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                                        if(response.isSuccessful() && response.body()!=null){
+                                            UserResponse userResponse = response.body();
+                                            Log.e("EditInfo", userResponse.getMainMajorName());
+                                            //userResponse.
+                                            Toast.makeText(getActivity(), "수정되었습니다.", Toast.LENGTH_SHORT).show();
+                                            // myPageFragment로 이동합니다.
+                                            myPageFragment mypageFragment = new myPageFragment();
+
+                                            // FragmentManager를 사용하여 Fragment를 추가합니다.
+                                            requireActivity().getSupportFragmentManager().beginTransaction()
+                                                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out) // 애니메이션 효과 추가 (선택사항)
+                                                    .replace(R.id.frame_layout, mypageFragment)
+                                                    .commit();
+                                        }
+                                        else{
+                                            // response.message(): 서버 응답이 실패했을 때, 서버에서 제공하는 메시지를 표시
+                                            Toast.makeText(getActivity(), "Edit Info failed."+ response.message(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    @Override
+                                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                                        // t.getMessage(): 네트워크 호출이 실패했을 때 발생한 예외의 메시지를 표시
+                                        Toast.makeText(getActivity(), "Edit error: "+ t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                         }
+
                         @Override
                         public void onFailure(Call<UserResponse> call, Throwable t) {
-                            // t.getMessage(): 네트워크 호출이 실패했을 때 발생한 예외의 메시지를 표시
-                            Toast.makeText(getActivity(), "Edit error: "+ t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e("UserInfo", "Network request failed", t);
+                            Toast.makeText(getActivity(), "Network request failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+
+
+
                 } // 본전공 선택 유효성 검사
             }
         });

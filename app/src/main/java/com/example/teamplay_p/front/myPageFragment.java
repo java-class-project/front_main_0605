@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.teamplay_p.ApiService;
 import com.example.teamplay_p.RetrofitClient;
+import com.example.teamplay_p.dto.meeting.MeetingResponse;
 import com.example.teamplay_p.dto.user.UserResponse;
 import com.example.teamplay_p.front.InfoEditFragment;
 
@@ -27,6 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.teamplay_p.R;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,7 +72,7 @@ public class myPageFragment extends Fragment{
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Token", Context.MODE_PRIVATE);
         String authToken = sharedPreferences.getString("authToken", "");
 
-        if(uuid == null) uuid = RetrofitClient.Uuid;
+         uuid = RetrofitClient.Uuid;
         // Retrofit 클라이언트 생성
         apiService = RetrofitClient.getClient(authToken).create(ApiService.class);
         Call<UserResponse> call = apiService.getUserInfo(uuid);
@@ -81,14 +83,17 @@ public class myPageFragment extends Fragment{
                     UserResponse userResponse = response.body();
                     if (userResponse != null) {
                         String usernameText = userResponse.getUsername() != null ? userResponse.getUsername() : "N/A";
+                        String studentidText = userResponse.getStudentNumber();
                         String mainMajorName = userResponse.getMainMajorName() != null ? userResponse.getMainMajorName() : "N/A";
-                        String subMajor1Name = userResponse.getSubMajor1Name() != null ? userResponse.getSubMajor1Name() : "N/A";
-                        String subMajor2Name = userResponse.getSubMajor2Name() != null ? userResponse.getSubMajor2Name() : "N/A";
+                        String subMajor1Name = userResponse.getSubMajor1Name() != null ? userResponse.getSubMajor1Name() : "";
+                        String subMajor2Name = userResponse.getSubMajor2Name() != null ? userResponse.getSubMajor2Name() : "";
 
                         TextView username = view.findViewById(R.id.user_name);
+                        TextView studentid = view.findViewById(R.id.user_id);
                         TextView usermajor = view.findViewById(R.id.user_major);
                         Log.d("TAG", usernameText);
                         username.setText(usernameText);
+                        studentid.setText(studentidText);
                         usermajor.setText(mainMajorName + "\n" + subMajor1Name + "\n" + subMajor2Name);
                     } else {
                         Log.d("UserInfo", "Response body is null");
@@ -121,6 +126,48 @@ public class myPageFragment extends Fragment{
             }
         });
 
+        Call<MeetingResponse> teamcall = apiService.GetTeamInfo(uuid);
+        teamcall.enqueue(new Callback<MeetingResponse>() {
+            @Override
+            public void onResponse(Call<MeetingResponse> call, Response<MeetingResponse> response) {
+                if (response.isSuccessful()) {
+                    MeetingResponse meetingResponse = response.body();
+                    if (meetingResponse != null) {
+                        CardView teamView = view.findViewById(R.id.cardview2);
+                        teamView.setVisibility(View.INVISIBLE);
+                        String teamName = meetingResponse.getSubjectName();
+                        String teamMemberName = meetingResponse.getUsername();
+                        String teamMemberMajor = meetingResponse.getuserMajor();
+                        String nowMemberCount = meetingResponse.getuserstudentNumber();
+                        String desireMemberCount = Integer.toString(meetingResponse.getDesiredCount());
+
+                        TextView teamname = view.findViewById(R.id.team_course);
+                        TextView teamMemberInfo = view.findViewById(R.id.team_info);
+                        TextView teamMemberCount = view.findViewById(R.id.team_members);
+                        Button isTeamAlive = view.findViewById(R.id.btn_recruit);
+
+                        teamname.setText(teamName);
+                        teamMemberInfo.setText(teamMemberName+"("+teamMemberMajor+")");
+                        teamMemberCount.setText(nowMemberCount+" / "+desireMemberCount);
+
+                        if(nowMemberCount.equals(desireMemberCount))
+                            isTeamAlive.setText("모집 완료");
+                        else
+                            isTeamAlive.setText("인원 모집중");
+                    }
+                    else {
+                        CardView teamView = view.findViewById(R.id.cardview2);
+                        teamView.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MeetingResponse> call, Throwable t) {
+                CardView teamView = view.findViewById(R.id.cardview2);
+                teamView.setVisibility(View.INVISIBLE);
+            }
+        });
 
         // btn_infoEdit 버튼을 찾습니다.
         Button btnInfoEdit = view.findViewById(R.id.btn_InfoEdit);

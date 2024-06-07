@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {  // call은 요청 객체, response는 응답 객체
                     if(response.isSuccessful() && response.body()!=null){    // 로그인 성공 시
                         LoginResponse loginResponse = response.body();
+                        RetrofitClient.Uuid = loginResponse.getUserUuid().toString();
 
                         // 토큰 저장
                         // SharedPreferences 간단한 데이터 저장 및 읽기 (여기서는 토큰)
