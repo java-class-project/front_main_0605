@@ -91,4 +91,7 @@ public class ProfileList {
     public Object getDate() {
         return Date;
     }
+
+    public String getUserId() { return UserId;
+    }
 }

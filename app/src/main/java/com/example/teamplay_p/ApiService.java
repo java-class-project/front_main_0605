@@ -7,6 +7,7 @@ import com.example.teamplay_p.dto.major.MajorReqDto;
 import com.example.teamplay_p.dto.meeting.CreateMeetingRequest;
 import com.example.teamplay_p.dto.meeting.Meeting;
 import com.example.teamplay_p.dto.meeting.MeetingResponse;
+import com.example.teamplay_p.dto.meeting.MeetingUserResponse;
 import com.example.teamplay_p.dto.subject.subject;
 import com.example.teamplay_p.dto.user.JoinRequest;
 import com.example.teamplay_p.dto.user.UpdateRequest;
@@ -91,6 +92,13 @@ public interface ApiService {
 
     @POST("/v1/meetings/{meetingId}/apply")
     Call<Void> applyForMeeting(@Path("meetingId") UUID meetingId);
+
+    // respondToApplication 추가
+    @POST("/v1/meetings/{meetingId}/respond")
+    Call<UUID> respondToApplication(@Path("meetingId") UUID meetingId, @Query("applicantId") String applicantId, @Query("accepted") boolean accepted);
+
+    @GET("/v1/meetings/{meetingId}/users")
+    Call<MeetingUserResponse> getUsersByMeeting(@Path("meetingId") UUID meetingId);
 
 
 

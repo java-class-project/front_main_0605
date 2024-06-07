@@ -45,6 +45,31 @@
                     android:text="ㅇㅇㅇ"
                     android:textColor="#00138F"/>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="팀 역할: "
+                        android:textColor="#00138F"/>
+
+                    <TextView
+                        android:id="@+id/rv_meetingrole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="리더"
+                        android:textColor="#00138F"/>
+
+
+
+
+
+
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/rv_ClassNum"
                     android:layout_width="wrap_content"
