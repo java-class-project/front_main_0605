@@ -138,7 +138,7 @@ public class myPageFragment extends Fragment{
                         String teamName = meetingResponse.getSubjectName();
                         String teamMemberName = meetingResponse.getUsername();
                         String teamMemberMajor = meetingResponse.getuserMajor();
-                        String nowMemberCount = meetingResponse.getuserstudentNumber();
+                        String nowMemberCount = Integer.toString(meetingResponse.getMeetingRecruitmentFinished());
                         String desireMemberCount = Integer.toString(meetingResponse.getDesiredCount());
 
                         TextView teamname = view.findViewById(R.id.team_course);
