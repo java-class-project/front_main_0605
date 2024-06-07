@@ -38,6 +38,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         UserList userlist = userListArrayList.get(position);
         holder.profile_img.setImageResource(userlist.profile_img);
         holder.username.setText(userlist.Username);
+        holder.meetingrole.setText(userlist.Meetingrole);
         holder.usernumber.setText(userlist.Usernumber);
         holder.major1.setText(userlist.Major1);
         holder.major2.setText(userlist.Major2);
@@ -55,12 +56,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         ImageView profile_img;
 
-        TextView username, usernumber, major1, major2, major3;
+        TextView username, meetingrole, usernumber, major1, major2, major3;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
             profile_img = itemView.findViewById(R.id.rv_profile);
             username = itemView.findViewById(R.id.rv_username);
+            meetingrole = itemView.findViewById(R.id.rv_meetingrole);
             usernumber = itemView.findViewById(R.id.rv_ClassNum);
             major1 = itemView.findViewById(R.id.rv_major);
             major2 = itemView.findViewById(R.id.rv_major2);

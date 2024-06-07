@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class alertFragment extends Fragment {
 
-    private MyWebSocketClient webSocketClient;
+
     private AlertListAdapter adapter;
     private ArrayList<Alertitem> alertItems;
 
@@ -41,29 +41,10 @@ public class alertFragment extends Fragment {
         adapter = new AlertListAdapter(getContext(), alertItems);
         listView.setAdapter(adapter);
 
-        // 웹소켓 클라이언트 초기화
-        webSocketClient = new MyWebSocketClient();
-        webSocketClient.setOnMessageReceivedListener(new MyWebSocketClient.OnMessageReceivedListener() {
-            @Override
-            public void onMessageReceived(String message) {
-                handleNotificationMessage(message);
-            }
-        });
+
 
         return view;
     }
 
-    private void handleNotificationMessage(String message) {
-        // NotificationMessage를 Alertitem으로 변환하여 리스트뷰에 추가
-        NotificationMessage notificationMessage = new Gson().fromJson(message, NotificationMessage.class);
-        int type = notificationMessage.getType().equals("MEETING_APPLICATION") ? Alertitem.TYPE_ONE : Alertitem.TYPE_TWO;
-        Alertitem alertItem = new Alertitem(notificationMessage.getMessage(), type);
-        alertItems.add(alertItem);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.notifyDataSetChanged(); // 리스트뷰 갱신
-            }
-        });
-    }
+
 }

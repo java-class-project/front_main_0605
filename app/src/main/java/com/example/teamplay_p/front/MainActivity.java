@@ -83,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
                         editor.putString("authToken",loginResponse.getToken()); // putString(String key, String value) 문자열 데이터 저장
                         editor.apply();  // 변경 사항 저장(비동기적)
 
+                        // userId 저장
+                        editor.putString("userId", userId);
+                        editor.apply();
+
                         // Toast : 짧은 시간 동안 메시지 화면에 표시
                         // MainActivity.this: 메시지를 표시할 화면
                         // "Login Successful!": 화면에 표시할 메세지
