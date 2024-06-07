@@ -58,7 +58,9 @@ public class ProfileList {
         return Title;
     }
 
+
     public ProfileList(int profile_img, String className, String classnum, String teamtype, String teamLeader, String userMajor, String userstunum, String desiredcount, String meetingRecruitmentFinished, String meetingRecruitment, Date date, String title, String description, UUID meetinguuid, String userid) {
+
         this.profile_img = profile_img;
 
         ClassName = className;

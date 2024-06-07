@@ -8,52 +8,57 @@ import java.util.UUID;
 
 public class MeetingResponse {
 
+    @SerializedName("meetingUuid")
     private UUID meetingUuid;
     @SerializedName("subjectName")
     private String subjectName;
-
-    private int classNum;
-
     @SerializedName("desiredCount")
     private int desiredCount;
-
     @SerializedName("teamType")
     private String teamType;
-
     @SerializedName("username")
     private String username;
-
-    private String UserId;
-
+    @SerializedName("userId")
+    private String userId;
+    @SerializedName("classNum")
+    private Integer classNum;
+    @SerializedName("studentNumber")
     private String studentNumber;
-
+    @SerializedName("userMajor")
     private String userMajor;
-
     @SerializedName("title")
     private String title;
-
     @SerializedName("description")
     private String description;
 
-    private int meetingRecruitment;
-    private int meetingRecruitmentFinished;
-
-
+    @SerializedName("date")
     private Date date;
+    @SerializedName("meetingRecruitment")
+    private Integer meetingRecruitment;
+    @SerializedName("meetingRecruitmentFinished")
+    private Integer meetingRecruitmentFinished;
+    @SerializedName("status")
+    private String status;
 
-    public MeetingResponse(String subjectName,int subjectNum, String teamType, String username, String userMajor, String studentNumber, int desiredCount, int meetingRecruitmentFinished, int meetingRecruitment, String title, String description, UUID meetingUuid,Date date ){
+
+    public MeetingResponse(UUID meetingUuid, String subjectName,int desiredCount, String teamType,
+                           String username, String userId, Integer classNum, String studentNumber,
+                           String userMajor, String title, String description, Date date,
+                           Integer meetingRecruitment, Integer meetingRecruitmentFinished, String status ){
+        this.meetingUuid = meetingUuid;
         this.subjectName = subjectName;
-        this.classNum = subjectNum;
+        this.desiredCount = desiredCount;
         this.teamType = teamType;
         this.username = username;
-        this.userMajor = userMajor;
+        this.userId = userId;
+        this.classNum = classNum;
         this.studentNumber = studentNumber;
-        this.desiredCount = desiredCount;
-        this.meetingRecruitment = meetingRecruitment;
-        this.meetingRecruitmentFinished = meetingRecruitmentFinished;
+        this.userMajor = userMajor;
         this.title = title;
         this.description = description;
-        this.meetingUuid = meetingUuid;
+        this.meetingRecruitment = meetingRecruitment;
+        this.meetingRecruitmentFinished = meetingRecruitmentFinished;
+        this.status = status;
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.date = date;
@@ -61,8 +66,15 @@ public class MeetingResponse {
 
     }
 
+    public UUID getMeetingUuid() {
+        return meetingUuid;
+    }
+
     public String getSubjectName() {
         return subjectName;
+    }
+    public int getDesiredCount() {
+        return desiredCount;
     }
 
     public String getTeamType() {
@@ -72,50 +84,44 @@ public class MeetingResponse {
     public String getUsername() {
         return username;
     }
-
-    public int getDesiredCount() {
-        return desiredCount;
+    public String getUserId() {
+        return userId;
     }
 
-    public String getTitle() {
-        return title;
+    public Integer getClassNum() {
+        return classNum;
     }
-
-    public String getDescription() {
-        return description;
+    public String getuserstudentNumber() {
+        return studentNumber;
     }
-
     public String getuserMajor() {
         return userMajor;
     }
 
-
-
-    public String getuserstudentNumber() {
-        return studentNumber;
-    }
-
-    public UUID getMeetingUuid() {
-        return meetingUuid;
-    }
-
-    public String getUserId() {
-        return UserId;
+    public String getTitle() {
+        return title;
+      
+   public String getDescription() {
+        return description;
     }
 
     public Date getDate() {
         return date;
     }
 
-    public int getclassNum() {
-        return classNum;
+    public Integer getMeetingRecruitment() {
+        return meetingRecruitment;
     }
 
-    public int getmeetingRecruitmentFinished() { return meetingRecruitmentFinished;
+
+    public Integer getMeetingRecruitmentFinished() {
+        return meetingRecruitmentFinished;
     }
 
-    public int getmeetingRecruitment() { return meetingRecruitment;
+    public String getStatus() {
+        return status;
     }
+
 
 
     // 변경된 부분: dateString 반환하는 메서드 추가

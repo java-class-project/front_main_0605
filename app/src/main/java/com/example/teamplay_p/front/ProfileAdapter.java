@@ -178,6 +178,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
             btn_register.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     UUID meetingid = profileListArrayList.get(getAdapterPosition()).getMeetingUuid();
 
                     // Display the meeting UUID in a Toast
@@ -219,6 +220,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
                             Toast.makeText(context, "네트워크 오류: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+
                 }
             });
 
