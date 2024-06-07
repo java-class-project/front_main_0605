@@ -85,6 +85,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         holder.TeamLeader.setText(profileList.TeamLeader);
         holder.UserMajor.setText(profileList.UserMajor);
         holder.Userstunum.setText(profileList.Userstunum);
+        holder.Status.setText(profileList.Status);
         holder.Desiredcount.setText(profileList.DesiredCount);
         holder.MeetingRecruitmentFinished.setText(profileList.MeetingRecruitmentFinished);
         holder.MeetingRecruitment.setText(profileList.MeetingRecruitment);
@@ -145,7 +146,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
 
         TextView major,ClassName,Desiredcount, TeamType,Title, Description, TeamLeader,UserMajor, Userstunum,Date;
 
-        TextView ClassNumber, MeetingRecruitment, MeetingRecruitmentFinished;
+        TextView ClassNumber, MeetingRecruitment, MeetingRecruitmentFinished,Status;
 
 
         public ProfileAdapterHolder(@NonNull View itemView) {
@@ -157,6 +158,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
             TeamLeader = itemView.findViewById(R.id.iv_username);
             UserMajor = itemView.findViewById(R.id.iv_usermajor);
             Userstunum = itemView.findViewById(R.id.iv_userstnum);
+            Status = itemView.findViewById(R.id.iv_status);
             Desiredcount = itemView.findViewById(R.id.iv_desiredcount);
             MeetingRecruitment = itemView.findViewById(R.id.iv_meetingRecruitment);
             MeetingRecruitmentFinished = itemView.findViewById(R.id.iv_meetingRecruitmentFinished);
