@@ -12,6 +12,7 @@ import com.example.teamplay_p.dto.user.JoinRequest;
 import com.example.teamplay_p.dto.user.UpdateRequest;
 import com.example.teamplay_p.dto.user.UserResponse;
 
+import java.sql.Struct;
 import java.util.List;
 import java.util.UUID;
 
@@ -76,8 +77,10 @@ public interface ApiService {
 
     // 필터 및 검색
     @GET("/v1/meetings/search")
-    Call<List<MeetingResponse>> filterAndSearchMeetings(@Query("majorUuid") UUID majorUuid, @Query("subjectUuid") UUID subjectUuid, @Query("teamTypes") List<String> teamTypes,
-                                                        @Query("classNum") Integer classNum,@Query("desiredCount") Integer desiredCount, @Query("searchText") String searchText);
+    Call<List<MeetingResponse>> filterAndSearchMeetings(@Query("majorUuid") UUID majorUuid, @Query("subjectUuid") UUID subjectUuid,
+                                                        @Query("teamTypes") List<String> teamTypes, @Query("classNum") Integer classNum,
+                                                        @Query("desiredCount") Integer desiredCount, @Query("searchText") String searchText,
+                                                        @Query("status") List<String> status);
 
 
     @GET("/v1/meetings")

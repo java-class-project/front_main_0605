@@ -158,7 +158,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
             btn_register.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String meetingId = profileListArrayList.get(getAdapterPosition()).getMeetingUuid();
+                    String meetingId = profileListArrayList.get(getAdapterPosition()).getMeetingUuid().toString();
                     // 서버의 메서드 호출
 
                 }
