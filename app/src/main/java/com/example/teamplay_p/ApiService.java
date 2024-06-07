@@ -58,7 +58,7 @@ public interface ApiService {
     Call<UserResponse> getUserInfo(@Path("userUuid") String userUuid);
     // 회원정보 수정
     @PUT("/v1/user/{userUuid}")
-    Call<UserResponse> updateUserInfo(@Path("userUuid") String userUuid, @Body UpdateRequest request);
+    Call<UserResponse> updateUserInfo(@Path("userUuid") String userUuid, @Body UserResponse request);
     // 회원가입
     @POST("/v1/user/register")
     Call<UserResponse> registerUser(@Body JoinRequest request);
