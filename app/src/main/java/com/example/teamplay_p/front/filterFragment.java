@@ -196,7 +196,7 @@ public class filterFragment extends DialogFragment {
             }
 
 
-            Call<List<MeetingResponse>> call = apiService.filterAndSearchMeetings(majorUuid, subjectUuid, teamTypes, classNum, null, null, null);
+            Call<List<MeetingResponse>> call = apiService.filterAndSearchMeetings(majorUuid, subjectUuid, teamTypes, classNum, null, null, status);
             call.enqueue(new Callback<List<MeetingResponse>>() {
                 @Override
                 public void onResponse(Call<List<MeetingResponse>> call, Response<List<MeetingResponse>> response) {
