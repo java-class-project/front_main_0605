@@ -45,14 +45,6 @@ public class homeFragment extends Fragment {
     private RecyclerView recyclerView;
     private SearchView searchView;
 
-    private String[] className;
-    private String[] classNumber;
-    private String[] teamType;
-    private String[] experience;
-    private String[] mbti;
-    private int profile_img;
-    private String[] profileName;
-    private String[] cmt;
 
     filterFragment FilterFragment;
 
@@ -191,6 +183,8 @@ public class homeFragment extends Fragment {
                                     meeting.getuserMajor(),
                                     meeting.getuserstudentNumber(),
                                     String.valueOf(meeting.getDesiredCount()),
+                                    String.valueOf(meeting.getmeetingRecruitmentFinished()),
+                                    String.valueOf(meeting.getmeetingRecruitment()),
                                     meeting.getDate(),
                                     meeting.getTitle(),
                                     meeting.getDescription(),
@@ -236,6 +230,8 @@ public class homeFragment extends Fragment {
                             meeting.getuserMajor(),
                             meeting.getuserstudentNumber(),
                             String.valueOf(meeting.getDesiredCount()),
+                            String.valueOf(meeting.getmeetingRecruitmentFinished()),
+                            String.valueOf(meeting.getmeetingRecruitment()),
                             meeting.getDate(),
                             meeting.getTitle(),
                             meeting.getDescription(),

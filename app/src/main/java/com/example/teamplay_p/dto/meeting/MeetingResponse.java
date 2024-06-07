@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class MeetingResponse {
+
     @SerializedName("meetingUuid")
     private UUID meetingUuid;
     @SerializedName("subjectName")
@@ -29,6 +30,7 @@ public class MeetingResponse {
     private String title;
     @SerializedName("description")
     private String description;
+
     @SerializedName("date")
     private Date date;
     @SerializedName("meetingRecruitment")
@@ -98,9 +100,8 @@ public class MeetingResponse {
 
     public String getTitle() {
         return title;
-    }
-
-    public String getDescription() {
+      
+   public String getDescription() {
         return description;
     }
 
@@ -112,6 +113,7 @@ public class MeetingResponse {
         return meetingRecruitment;
     }
 
+
     public Integer getMeetingRecruitmentFinished() {
         return meetingRecruitmentFinished;
     }
@@ -119,6 +121,9 @@ public class MeetingResponse {
     public String getStatus() {
         return status;
     }
+
+
+
     // 변경된 부분: dateString 반환하는 메서드 추가
 
 }

@@ -14,6 +14,9 @@ constraintlayout = "2.1.4"
 
 preference = "1.2.1"
 navigationRuntime = "2.7.7"
+okhttp = "5.0.0-alpha.14"
+playServicesNearby = "19.3.0"
+gsonVersion = "2.11.0"
 
 
 [libraries]
@@ -30,6 +33,9 @@ gsonConverter = {group = "com.squareup.retrofit2", name = "converter-gson", vers
 
 preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 navigation-runtime = { group = "androidx.navigation", name = "navigation-runtime", version.ref = "navigationRuntime" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+play-services-nearby = { group = "com.google.android.gms", name = "play-services-nearby", version.ref = "playServicesNearby" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
