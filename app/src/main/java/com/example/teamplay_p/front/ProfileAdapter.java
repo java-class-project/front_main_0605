@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
 
     private static int team_img;
 
-    private MyWebSocketClient webSocketClient;
+
 
 
 
@@ -57,15 +58,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         this.profileListArrayList = profileListArrayList;
         this.originalList = new ArrayList<>(profileListArrayList); // 원본 목록 저장
 
-        // WebSocket 클라이언트 초기화
-        webSocketClient = new MyWebSocketClient();
-        webSocketClient.setOnMessageReceivedListener(new MyWebSocketClient.OnMessageReceivedListener() {
-            @Override
-            public void onMessageReceived(String message) {
-                // 메시지 수신 시 동작 정의
-                Toast.makeText(context, "WebSocket Message: " + message, Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
     }
 
@@ -92,6 +85,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
         holder.TeamLeader.setText(profileList.TeamLeader);
         holder.UserMajor.setText(profileList.UserMajor);
         holder.Userstunum.setText(profileList.Userstunum);
+        holder.Status.setText(profileList.Status);
         holder.Desiredcount.setText(profileList.DesiredCount);
         holder.MeetingRecruitmentFinished.setText(profileList.MeetingRecruitmentFinished);
         holder.MeetingRecruitment.setText(profileList.MeetingRecruitment);
@@ -109,11 +103,15 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
                 // 프래그먼트를 이동하고 싶은 Activity를 확인합니다.
                 FragmentActivity fragmentActivity = (FragmentActivity) context;
                 // 새로운 Fragment를 생성합니다.
-                Fragment newFragment = new Teaminfo();
+                Teaminfo newFragment = new Teaminfo();
+                // 데이터 전달을 위해 번들 생성
+                Bundle bundle = new Bundle();
+                bundle.putString("meetingUuid", profileList.getMeetingUuid().toString());
+                newFragment.setArguments(bundle);
                 // FragmentTransaction을 시작합니다.
                 FragmentTransaction fragmentTransaction = fragmentActivity.getSupportFragmentManager().beginTransaction();
                 // 새로운 Fragment를 레이아웃에 표시합니다.
-                fragmentTransaction.replace(R.id.frame_layout, new Teaminfo());
+                fragmentTransaction.replace(R.id.frame_layout, newFragment);
                 // 이전 Fragment를 Back Stack에 추가하여 뒤로 가기 동작이 가능하도록 합니다.
                 fragmentTransaction.addToBackStack(null);
                 // FragmentTransaction을 커밋하여 변경 사항을 적용합니다.
@@ -148,7 +146,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
 
         TextView major,ClassName,Desiredcount, TeamType,Title, Description, TeamLeader,UserMajor, Userstunum,Date;
 
-        TextView ClassNumber, MeetingRecruitment, MeetingRecruitmentFinished;
+        TextView ClassNumber, MeetingRecruitment, MeetingRecruitmentFinished,Status;
 
 
         public ProfileAdapterHolder(@NonNull View itemView) {
@@ -160,6 +158,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
             TeamLeader = itemView.findViewById(R.id.iv_username);
             UserMajor = itemView.findViewById(R.id.iv_usermajor);
             Userstunum = itemView.findViewById(R.id.iv_userstnum);
+            Status = itemView.findViewById(R.id.iv_status);
             Desiredcount = itemView.findViewById(R.id.iv_desiredcount);
             MeetingRecruitment = itemView.findViewById(R.id.iv_meetingRecruitment);
             MeetingRecruitmentFinished = itemView.findViewById(R.id.iv_meetingRecruitmentFinished);
@@ -181,12 +180,14 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
 
                     UUID meetingid = profileListArrayList.get(getAdapterPosition()).getMeetingUuid();
 
-                    // Display the meeting UUID in a Toast
-                    Toast.makeText(context, "Meeting UUID: " + meetingid, Toast.LENGTH_SHORT).show();
+                    // SharedPreferences에서 userId 읽어오기
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("Token", Context.MODE_PRIVATE);
+                    String applicantId = sharedPreferences.getString("userId", "");
 
+                   // Display the meeting UUID and applicantId in a Toast
+                    Toast.makeText(context, "Meeting UUID: " + meetingid + "\nApplicant ID: " + applicantId, Toast.LENGTH_SHORT).show();
 
                     // 토큰 읽어오기
-                    SharedPreferences sharedPreferences = context.getSharedPreferences("Token", Context.MODE_PRIVATE);
                     String authToken = sharedPreferences.getString("authToken", "");
 
                     // Retrofit 클라이언트 생성
@@ -204,13 +205,38 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
                                 // 서버 요청이 성공한 경우
                                 // 예: 성공 메시지 표시
                                 Toast.makeText(context, "신청이 성공적으로 전송되었습니다.", Toast.LENGTH_SHORT).show();
+
+
+                                // 신청이 성공하면 respondToApplication 호출
+                                Call<UUID> respondCall = apiService.respondToApplication(meetingid, applicantId, true);
+                                respondCall.enqueue(new Callback<UUID>() {
+                                    @Override
+                                    public void onResponse(Call<UUID> call, Response<UUID> response) {
+                                        if (response.isSuccessful()) {
+                                            // respondToApplication이 성공한 경우
+                                            Toast.makeText(context, "가입 신청이 성공적으로 처리되었습니다.", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            // respondToApplication이 실패한 경우
+                                            String errorMessage = "respond실패: " + response.code() + " " + response.message();
+                                            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<UUID> call, Throwable t) {
+                                        // respondToApplication이 실패한 경우
+                                        Toast.makeText(context, "네트워크 오류: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             } else {
-                                // 서버 요청이 실패한 경우
-                                // 예: 실패 메시지 표시
+                                // 신청이 실패한 경우
                                 String errorMessage = "실패: " + response.code() + " " + response.message();
                                 Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                             }
                         }
+
+
+
 
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {

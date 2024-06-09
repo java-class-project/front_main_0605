@@ -45,6 +45,31 @@
                     android:text="ㅇㅇㅇ"
                     android:textColor="#00138F"/>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="팀 역할: "
+                        android:textColor="#00138F"/>
+
+                    <TextView
+                        android:id="@+id/rv_meetingrole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="리더"
+                        android:textColor="#00138F"/>
+
+
+
+
+
+
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/rv_ClassNum"
                     android:layout_width="wrap_content"
@@ -69,9 +94,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="it공학부"
-                        android:textColor="#00138F"/>
+                        android:textColor="#00138F" />
 
                 </LinearLayout>
+
+
                 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -81,7 +108,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="부전공: "
+                        android:text="복수전공: "
                         android:textColor="#00138F"/>
 
                     <TextView
@@ -104,7 +131,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="연계전공: "
+                        android:text="부전공: "
                         android:textColor="#00138F"/>
 
                     <TextView
