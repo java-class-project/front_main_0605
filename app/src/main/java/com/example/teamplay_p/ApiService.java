@@ -87,7 +87,7 @@ public interface ApiService {
     Call<List<MeetingResponse>> getAllMeetings();
 
     @GET("/v1/meetings/{uuid}")
-    Call<MeetingResponse> GetTeamInfo(@Path("uuid") String uuid);
+    Call<List<MeetingResponse>> GetTeamInfo(@Path("uuid") String uuid);
 
     @POST("/v1/meetings/{meetingId}/apply")
     Call<Void> applyForMeeting(@Path("meetingId") UUID meetingId);

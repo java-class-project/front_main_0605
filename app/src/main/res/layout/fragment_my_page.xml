@@ -79,20 +79,13 @@
                 android:layout_height="150dp"
                 android:src="@drawable/baseline_account_circle_24" />
 
-            <TextView
-                android:id="@+id/user_courses"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="180dp"
-                android:text="수강 중인 수업\n객체지향프로그래밍 3분반\n디지털미디어컨텐츠1\n문화 심리학"
-                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/btn_InfoEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="280dp"
-                android:layout_marginTop="250dp"
+                android:layout_marginTop="200dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/btn_background"
                 android:text="정보 수정"
@@ -105,7 +98,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="450dp"
+        android:layout_marginTop="400dp"
         android:background="@drawable/bg_searchview"
         android:stateListAnimator="@null"
         app:cardCornerRadius="8dp"
@@ -167,7 +160,8 @@
         android:id="@+id/team_status_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="420dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="370dp"
         android:layout_gravity="top"
         android:text="팀 현황"
         android:textSize="18sp"

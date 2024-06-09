@@ -29,6 +29,7 @@ import com.example.teamplay_p.R;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -126,20 +127,20 @@ public class myPageFragment extends Fragment{
             }
         });
 
-        Call<MeetingResponse> teamcall = apiService.GetTeamInfo(uuid);
-        teamcall.enqueue(new Callback<MeetingResponse>() {
+        Call<List<MeetingResponse>> teamcall = apiService.GetTeamInfo(uuid);
+        teamcall.enqueue(new Callback<List<MeetingResponse>>() {
             @Override
-            public void onResponse(Call<MeetingResponse> call, Response<MeetingResponse> response) {
+            public void onResponse(Call<List<MeetingResponse>> call, Response<List<MeetingResponse>> response) {
                 if (response.isSuccessful()) {
-                    MeetingResponse meetingResponse = response.body();
+                    List<MeetingResponse> meetingResponse = response.body();
                     if (meetingResponse != null) {
                         CardView teamView = view.findViewById(R.id.cardview2);
-                        teamView.setVisibility(View.INVISIBLE);
-                        String teamName = meetingResponse.getSubjectName();
-                        String teamMemberName = meetingResponse.getUsername();
-                        String teamMemberMajor = meetingResponse.getuserMajor();
-                        String nowMemberCount = Integer.toString(meetingResponse.getMeetingRecruitmentFinished());
-                        String desireMemberCount = Integer.toString(meetingResponse.getDesiredCount());
+                        teamView.setVisibility(View.VISIBLE);
+                        String teamName = meetingResponse.get(meetingResponse.size() - 1).getSubjectName();
+                        String teamMemberName = meetingResponse.get(meetingResponse.size() - 1).getUsername();
+                        String teamMemberMajor = meetingResponse.get(meetingResponse.size() - 1).getuserMajor();
+                        String nowMemberCount = Integer.toString(meetingResponse.get(meetingResponse.size() - 1).getMeetingRecruitmentFinished());
+                        String desireMemberCount = Integer.toString(meetingResponse.get(meetingResponse.size() - 1).getDesiredCount());
 
                         TextView teamname = view.findViewById(R.id.team_course);
                         TextView teamMemberInfo = view.findViewById(R.id.team_info);
@@ -163,9 +164,8 @@ public class myPageFragment extends Fragment{
             }
 
             @Override
-            public void onFailure(Call<MeetingResponse> call, Throwable t) {
-                CardView teamView = view.findViewById(R.id.cardview2);
-                teamView.setVisibility(View.INVISIBLE);
+            public void onFailure(Call<List<MeetingResponse>> call, Throwable t) {
+                Log.e("MypageInfo", "Network request failed", t);
             }
         });
 
