@@ -91,21 +91,7 @@
                     tools:itemCount="3"
                     tools:listitem="@layout/profile_list" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:scrollbarFadeDuration="0"
-                    android:scrollbarSize="5dp"
-                    android:scrollbarThumbVertical="@android:color/darker_gray"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/searchView"
-                    tools:ignore="NotSibling"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/team_list"/>
+
 
 
 

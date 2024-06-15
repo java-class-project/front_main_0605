@@ -75,7 +75,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
     public void onBindViewHolder(@NonNull ProfileAdapterHolder holder, @SuppressLint("RecyclerView") int position) {
 
 
-        team_img = R.id.team_icon;
+
 
         ProfileList profileList = profileListArrayList.get(position);
         holder.profile_img.setImageResource(profileList.profile_img);
@@ -167,7 +167,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileA
             Description = itemView.findViewById(R.id.iv_description);
 
 
-            ImageView teamImgView = itemView.findViewById(R.id.team_icon);
+
 
             btn_register = itemView.findViewById(R.id.btn_register);
             //뒤에 가입버튼 누르면 동작되는거 코드적으면됨
