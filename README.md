@@ -8,8 +8,10 @@
 
 ##설치방법
 1. 클론하려는 리포지토리를 저장할 로컬 디렉토리로 이동
+   
    cd path/to/your/directory
-2. 프로젝트 클론
+3. 프로젝트 클론
+   
    git clone https://github.com/java-class-project/front_main_0605.git
-3. 안드로이드 스튜디오에서 해당 파일 실행
+5. 안드로이드 스튜디오에서 해당 파일 실행
    
